@@ -1,0 +1,141 @@
+
+<div class="container" fxLayout.xs="row" fxLayout.sm="column" style="background-color: #ededed" >
+  <div fxFlex="100">
+  <form [formGroup]="uploadForm" (ngSubmit)="upload(uploadForm.value)" novalidate method='POST'>
+  <div class="container" fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center">
+  <div fxFlex="70">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h3> <mat-icon mat-list-icon>mode_edit</mat-icon> {{ 'personal' | translate }} Information   </h3>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+
+
+         <div fxFlex="100">
+            <input type="hidden" name="_id" formControlName="_id"  />
+
+            <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100">
+
+
+	     <!-- V document type starts here V -->
+	          <div class="row">
+	            <mat-form-field>
+	              <mat-select required   name="doctype" formControlName="doctype" placeholder="{{ 'state' | translate }}">
+	                <mat-option value="photo">
+	                  <span>Photo</span>
+	                </mat-option>
+	                <mat-option value="addressproof">
+	                  <span>Address proof</span>
+	                </mat-option>
+	                <mat-option value="castecerti">
+	                  <span>Caste Certificate</span>
+	                </mat-option>
+	                <mat-option value="marksheet">
+	                  <span>Marksheet</span>
+	                </mat-option>
+	                <mat-option value="experiencecerti">
+	                  <span>Experience Certi</span>
+	                </mat-option>
+	              </mat-select>
+	            
+	             <mat-error *ngIf="validationError">
+	                    <div *ngIf="validationError.errors.doctype">{{validationError.errors.doctype.message}}
+	                    </div>
+	                  </mat-error>
+	                  <mat-error *ngIf="!uploadForm.get('doctype').valid && uploadForm.get('doctype').touched">You must enter doctype.</mat-error>
+	            </mat-form-field>
+	            Touched : <p> {{uploadForm.get('doctype').touched}}</p>
+                value: <p>{{ uploadForm.get('doctype').value | json }}</p>
+                status: <p>{{ uploadForm.get('doctype').status }}</p>
+	          <!-- V document type ends here V -->
+	          </div>
+
+		  </div>
+          <!-- V Full Name starts here V -->
+            <div class="row">
+              <!-- <mat-form-field hintLabel="Name as per SSC marksheet"> -->
+                <!--<input type="file" id="Image"  formControlName="UserImage" required (change)="onFileChange($event)" #UserImage  />-->
+                <input type="file" id="Image" #UserImage formControlName="UserImage"   /> Touched : <p> {{uploadForm.get('UserImage').touched}}</p>
+                status: <p>{{ uploadForm.get('UserImage').status }}</p>
+              
+              <mat-error *ngIf="validationError">
+                <mat-error *ngIf="validationError.errors.UserImage">
+                      {{validationError.errors.UserImage.message}}    
+                </mat-error>
+              </mat-error>
+              <mat-error *ngIf="!uploadForm.get('UserImage').valid && uploadForm.get('UserImage').touched">You must enter a UserImage.
+              </mat-error>
+              <!-- </mat-form-field> -->
+          <!-- V Full Name ends here V -->
+          </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+
+
+
+  </div>
+  <div fxFlex="30">
+
+    <mat-card >
+      <mat-card-header primary>
+        <mat-card-title>
+          <h3 > Remaining </h3>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+         <!-- remaining uploads starts -->
+         
+			Remaining uploads
+          <!-- remaining uploads ends here -->
+      </mat-card-content>
+    </mat-card>
+
+        
+            <!-- V Disability Type starts here V  -->
+
+
+  </div>
+
+
+</div>
+<div class="container">
+  <mat-card>
+    <mat-card-content>
+            <div class="container" align="center">
+<!--               <span *ngIf="applicationForm.get('_id').value">
+                <a mat-raised-button color="accent" [routerLink]="['/layout/preview',applicationForm.get('_id').value]"
+                  ><mat-icon>keyboard_arrow_left</mat-icon> {{ 'back' | translate }} </a>
+              </span> -->
+              <!-- <span *ngIf="!uploadForm.get('_id').value"> -->
+                <a mat-raised-button color="accent" [routerLink]="['/layout/dashboard']"
+                  ><mat-icon>keyboard_arrow_left</mat-icon> {{ 'back' | translate }} </a>
+              <!-- </span> -->
+              
+              <button mat-raised-button color="primary" type="submit" ><mat-icon>check</mat-icon> {{ 'save' | translate }}</button>
+            </div>
+        </mat-card-content>
+  </mat-card>
+</div>
+</form>
+
+
+</div>
+</div>
+

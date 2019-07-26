@@ -1,0 +1,97 @@
+<div fxLayout="row" >
+	<div fxFlex="70">
+		<mat-card>
+			<mat-card-header >
+				<mat-card-title class="card-title">
+					<h3 > <mat-icon mat-list-icon>mode_edit</mat-icon> Register </h3>
+				</mat-card-title>
+			</mat-card-header>
+			<mat-card-content>
+
+				
+				<form [formGroup]="registrationForm" (ngSubmit)="doReigster(registrationForm)" novalidate method='POST'>
+
+				<div class="row">
+					<mat-form-field>
+						<input type="text" name="username" required matInput placeholder="Applicant Name" formControlName="username" /> 
+						<mat-error *ngIf="!registrationForm.get('username').valid && registrationForm.get('username').touched">You must enter Username.</mat-error>
+					</mat-form-field>
+				</div>
+
+				<div>
+					<mat-form-field>
+						<input type="text" name="email" required matInput formControlName="email"  placeholder="E-mail"   />
+						<mat-error *ngIf="!registrationForm.get('email').valid && registrationForm.get('email').touched">You must enter email.</mat-error>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field>
+						<input type="text" name="mobileno" required matInput formControlName="mobileno" placeholder="Mobile Number"   />
+						<mat-error *ngIf="!registrationForm.get('mobileno').valid && registrationForm.get('mobileno').touched">You must enter mobileno.</mat-error>
+					</mat-form-field>
+				</div>
+
+				<div>
+					<mat-form-field>
+						<input  name="password" matInput required formControlName="password" placeholder="Password"  [type]="hidepassowrd ? 'password' : 'text'">
+
+    <mat-icon matSuffix (click)="hidepassowrd = !hidepassowrd">{{hidepassowrd ? 'visibility' : 'visibility_off'}}</mat-icon>
+					    <mat-error *ngIf="!registrationForm.get('password').valid && registrationForm.get('password').touched">You must enter password.</mat-error>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field>
+						<input type="password" matInput required formControlName="confirmpassword" placeholder="Confirm Password" name="confirmpassword" value=""  [type]="hideconfirmpassword ? 'password' : 'text'">
+
+				    <mat-icon matSuffix (click)="hideconfirmpassword = !hideconfirmpassword">{{hideconfirmpassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+					    <mat-error *ngIf="!registrationForm.get('confirmpassword').valid && registrationForm.get('confirmpassword').touched">You must enter confirmpassword.</mat-error>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-card [hidden]="!error" [ngClass]="{'error' : error}" >
+						<mat-card-content>
+							<mat-error >
+								<mat-icon>error</mat-icon>{{ error | translate}}
+							</mat-error>
+						</mat-card-content>
+					</mat-card>
+
+					<mat-card [hidden]="!success" [ngClass]="{'success' : success}">
+						<mat-card-content style="color: white">
+							<mat-icon>check</mat-icon>{{ success | translate}}  <a mat-raised-button color="primary" [routerLink]="['/verifylogin']">Activate</a>
+						</mat-card-content>
+					</mat-card>
+
+
+					<mat-progress-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-progress-spinner>
+
+				</div>
+
+
+
+
+					 <a mat-raised-button color="accent" [routerLink]="['/index']"
+                  ><mat-icon>keyboard_arrow_left</mat-icon> {{ 'back' | translate }} </a>
+
+
+					<button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid" ><mat-icon>check</mat-icon> {{ 'register' | translate }}</button>
+
+				</form>
+			</mat-card-content>
+	    </mat-card>
+	</div>
+	<div fxFlex="30">
+		<mat-card>
+			<mat-card-header>
+				<mat-card-title>
+					<mat-card-title><h3> Contact Us <mat-icon>chat</mat-icon> </h3></mat-card-title>
+				</mat-card-title>
+			</mat-card-header>
+			<mat-card-content>
+				<mat-icon>mail</mat-icon> : ao_rr@sac.isro.gov.in <br />
+				<br />  <mat-icon >call</mat-icon> : 079-26913020 / 21
+			</mat-card-content>
+	    </mat-card>
+	</div>
+</div>
+

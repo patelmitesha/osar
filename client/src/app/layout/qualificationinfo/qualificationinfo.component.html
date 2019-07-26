@@ -1,0 +1,293 @@
+<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row"  style="background-color: #ededed" >
+
+  <div fxFlex="100">
+	<form [formGroup]="qualificationForm" (ngSubmit)="submitQualification(qualificationForm)" novalidate method='POST'>
+
+<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row" >
+	<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="70" fxFlex.lg="70">
+			<mat-card>
+			<mat-card-header>
+				<mat-card-title>
+					<h3> <mat-icon mat-list-icon>mode_edit</mat-icon> {{ 'educationalqualification' | translate }}  
+            {{coursesdata.nameofexam }} 
+          </h3>
+				</mat-card-title>
+			</mat-card-header>
+			<mat-card-content>
+
+		<input type="hidden" name="id" />
+		<input type="hidden" name="courseconfigid" formControlName="courseconfigid" />
+
+
+		  <!-- V discipline starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showcourse">
+            courses : {{coursesdata.courses}}
+            <mat-form-field>
+              <mat-select required  matInput name="course" formControlName="course" placeholder="{{ 'course' | translate }}" (ngModelChange)="changeSubjects($event)" >
+
+                <mat-option *ngFor="let courses of coursesdata.courses" [value]="courses.course" >
+                  <span >{{courses.course}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+             <mat-error *ngIf="validationError">
+                <div *ngIf="validationError.errors.course">{{validationError.errors.course.message}}
+                </div>
+              </mat-error>
+            <mat-error *ngIf="!qualificationForm.get('course').valid && qualificationForm.get('course').touched">You must enter course.</mat-error>
+            
+          </div>
+
+      <!-- V discipline ends here V -->
+
+      
+       <!-- V discipline starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showsubject">
+            <mat-form-field>
+              <mat-select required  matInput name="subject" formControlName="subject" placeholder="{{ 'subject' | translate }}" >
+                <mat-option *ngFor="let subject of subjects" [value]="subject.subject" >
+                  <span >{{subject.subject}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+             <mat-error *ngIf="validationError">
+                <div *ngIf="validationError.errors.subject">{{validationError.errors.subject.message}}
+                </div>
+              </mat-error>
+            <mat-error *ngIf="!qualificationForm.get('subject').valid && qualificationForm.get('subject').touched">You must enter subject.</mat-error>
+            
+          <!-- V discipline ends here V -->
+          </div>
+
+
+
+	  <!-- V Month/year of passing starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showyearofpassing">
+            <mat-form-field>
+              <input matInput name="yearofpassing" formControlName="yearofpassing" placeholder="{{ 'year' | translate }}" >
+            </mat-form-field>
+
+                  <mat-error *ngIf="validationError">
+                    <div *ngIf="validationError.errors.yearofpassing">{{validationError.errors.yearofpassing.message}}
+                    </div>
+                  </mat-error>
+                  <mat-error *ngIf="!qualificationForm.get('yearofpassing').valid && qualificationForm.get('yearofpassing').touched">You must enter Year of Passing.</mat-error>
+            
+          <!-- V Month/year of passing ends here V -->
+          </div>
+
+
+		 <!-- V University / Board starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showuniversity">
+            <mat-form-field>
+              <input matInput name="universityboard" formControlName="universityboard" placeholder="{{ 'university' | translate }} / {{ 'board' | translate }}" 
+              [matAutocomplete]="reactiveUniversity" >
+              <mat-autocomplete #reactiveUniversity="matAutocomplete" >
+                <mat-option *ngFor="let university of reactiveUniversities | async" [value]="university.universityname">
+                  <span>{{university.universityname}}</span>
+                </mat-option>
+
+              </mat-autocomplete>
+            </mat-form-field>
+             <mat-error *ngIf="validationError">
+                    <div *ngIf="validationError.errors.universityboard">{{validationError.errors.universityboard.message}}
+                    </div>
+                  </mat-error>
+                  <mat-error *ngIf="!qualificationForm.get('universityboard').valid && qualificationForm.get('universityboard').touched">You must enter University / Board.</mat-error>
+            
+          <!-- V University / Board ends here V -->
+          </div>
+
+          
+         <!-- V University / Board starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showstate">
+            <mat-form-field>
+              <mat-select required  matInput name="boardstate" formControlName="boardstate" placeholder="{{ 'board' | translate }} {{ 'state' | translate }}">
+                <mat-option *ngFor="let state of states" [value]="state.statename">
+                  <span >{{state.statename}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+             <mat-error *ngIf="validationError">
+                    <div *ngIf="validationError.errors.boardstate">{{validationError.errors.boardstate.message}}
+                    </div>
+                  </mat-error>
+                  <mat-error *ngIf="!qualificationForm.get('boardstate').valid && qualificationForm.get('boardstate').touched">You must enter State.</mat-error>
+            
+          <!-- V University / Board ends here V -->
+          </div>
+
+
+<!-- V result availted starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showresultawaited">
+            <mat-slide-toggle formControlName="resultawaited" name="resultawaited" labelPosition="before" >Result Awaited ?</mat-slide-toggle>
+             <mat-error *ngIf="validationError">
+                    <div *ngIf="validationError.errors.resultawaited">{{validationError.errors.resultawaited.message}}
+                    </div>
+                  </mat-error>
+                  <mat-error *ngIf="!qualificationForm.get('resultawaited').valid && qualificationForm.get('resultawaited').touched">You must enter Result awaited.</mat-error>
+
+          <!-- V result availted ends here V -->
+          </div>
+
+
+
+			<!-- V Exam Type starts here V -->
+			<div  class="row" [hidden]="!courseconfigs.showtypeofexam" [hidden]="qualificationForm.get('resultawaited').value==true">
+				<label >{{ 'examtype' | translate }} : </label>
+					<mat-radio-group formControlName="examtype">
+							<mat-radio-button value="Total Marks" [checked]="isChecked" > Total Marks </mat-radio-button>
+							<mat-radio-button value="DGPA" > DGPA </mat-radio-button>
+							<mat-radio-button value="CGPA" > CGPA </mat-radio-button>
+							<mat-radio-button value="OGPA" > OGPA </mat-radio-button>
+							<mat-radio-button value="CPI" > CPI </mat-radio-button>
+					</mat-radio-group>
+
+					<mat-error *ngIf="validationError">
+						<div *ngIf="validationError.errors.examtype">{{validationError.errors.examtype.message}} </div>
+					</mat-error>
+					<mat-error *ngIf="!qualificationForm.get('examtype').valid && qualificationForm.get('examtype').touched">
+						You must enter Exam type.
+					</mat-error>
+
+
+
+			<!-- V Exam Type ends here V -->
+			</div>
+
+
+
+
+
+          <!-- V Month/year of passing starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showpercentage" [hidden]="qualificationForm.get('resultawaited').value==true">
+            <mat-form-field>
+              <input matInput name="aggregate" formControlName="aggregate" placeholder="Aggregate" >
+              
+            </mat-form-field>
+             <mat-error *ngIf="validationError">
+                    <div *ngIf="validationError.errors.aggregate">{{validationError.errors.aggregate.message}}
+                    </div>
+                  </mat-error>
+                  <mat-error *ngIf="!qualificationForm.get('aggregate').valid && qualificationForm.get('aggregate').touched">You must enter Percentage.</mat-error>
+
+          <!-- V Month/year of passing ends here V -->
+          </div>
+
+
+
+
+
+
+
+
+
+          <!-- V University / Board starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showclass" [hidden]="qualificationForm.get('resultawaited').value==true">
+            <mat-form-field>
+              <input matInput name="examclass" formControlName="examclass" placeholder="{{ 'classobtained' | translate }}" [matAutocomplete]="reactiveClass" >
+              <mat-autocomplete #reactiveClass="matAutocomplete" >
+                <mat-option value="DISTINCTION">
+                  <span>DISTINCTION</span>
+                </mat-option>
+                <mat-option value="FIRST">
+                  <span>{{ 'first' | translate }}</span>
+                </mat-option>
+                <mat-option value="SECOND">
+                  <span>{{ 'second' | translate }}</span>
+                </mat-option>
+                <mat-option value="PASS">
+                  <span>PASS</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+             <mat-error *ngIf="validationError">
+                    <div *ngIf="validationError.errors.examclass">{{validationError.errors.examclass.message}}
+                    </div>
+                  </mat-error>
+                  <mat-error *ngIf="!qualificationForm.get('examclass').valid && qualificationForm.get('examclass').touched">You must enter Class.</mat-error>
+            
+          <!-- V University / Board ends here V -->
+          </div>
+
+
+
+          <!-- V Semester wise marks starts here V -->
+          <div class="row" [hidden]="!courseconfigs.showsemesterwisemarks" >
+            <div formArrayName="semesterwisemarks">
+
+                  <div class="container" align="right">
+
+                  <button mat-raised-button color="accent" (click)="removeSemesterwisemarks(i)"><mat-icon>delete</mat-icon>Remove</button>
+                  &nbsp;&nbsp;
+                  <button  mat-raised-button color="accent" (click)="addSemesterwisemarks()"><mat-icon>add</mat-icon>Add</button>
+                  </div>
+              <div *ngFor="let semesterwisemark of qualificationForm.controls.semesterwisemarks.controls; let i=index">
+                <div [formGroupName]="i">
+                  Semester / Year {{i+1}}
+                <mat-form-field>
+                  <input matInput formControlName="semester" placeholder="semester" >                
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput formControlName="marks" placeholder="Marks" >                
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput formControlName="grade" placeholder="Grade" >                
+                </mat-form-field>
+                </div>
+                
+              </div>
+               
+            </div>
+            
+            
+          <!-- V Semester wise marks ends here V -->
+          </div>
+
+
+
+
+			</mat-card-content>
+		</mat-card>
+	</div>
+
+	<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30"  fxFlex.lg="30" fxFlex.xl="30">
+		<mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-card-title><h3> {{ 'contactus' | translate }} <mat-icon>chat</mat-icon> </h3></mat-card-title>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-icon>mail</mat-icon> : ao_rr@sac.isro.gov.in <br />
+        <br />  <mat-icon >call</mat-icon> : 079-26913020 / 21
+      </mat-card-content>
+      </mat-card>
+	</div>
+</div>
+
+<div class="container">
+	<div fxFlex="100">
+  <mat-card>
+    <mat-card-content>
+              <div>
+            <div class="container" align="center">
+
+              <span class="{{nextButtonEnable==true}}">
+
+               <button mat-raised-button color="accent" [routerLink]="['/layout/preview',this.applicationid]"><mat-icon>keyboard_arrow_left</mat-icon> {{ 'back' | translate }}</button>
+              </span>
+              <button mat-raised-button color="primary" type="submit" [disabled]="qualificationForm.invalid"> <mat-icon>check</mat-icon> {{ 'save' | translate }}</button>
+            </div>
+          </div>
+        </mat-card-content>
+  </mat-card>
+</div>
+</div>
+
+<br> Form : {{qualificationForm.value | json}} <br>
+
+</form>
+</div>
+<div>
+

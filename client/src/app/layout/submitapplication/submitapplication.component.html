@@ -1,0 +1,73 @@
+<div class="container"  style="background-color: #ededed">
+
+<nav>
+  <div class="nav-wrapper">
+      <div style="font-size: larger; font-weight: bold; "><mat-icon>dashboard</mat-icon> {{ 'finalsubmit' | translate }}</div>
+  </div>
+</nav>
+<div>
+  <div id="card-placement" >
+    <div  fxFlex.xs="100" fxFlex.sm="100"  fxFlex.md="100" fxFlex.lg="100"  fxFlex.xl="100">
+	<mat-card style="background-color: #f1f1f1">
+        {{'msg005' | translate}}
+		<div class="container" fxLayout.xs="column" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row" >
+			<div  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70">
+				<mat-card class="mat-elevation-z3" style="padding: 0px">
+					<mat-list>
+						<mat-list-item>
+							<mat-icon mat-list-icon>account_circle</mat-icon>
+							<h3 mat-line>Personal Details</h3>
+							<p mat-line>
+							<span>Done</span>
+							</p>
+							<div><mat-icon>done</mat-icon></div>
+						</mat-list-item>
+						<mat-list-item>
+							<mat-icon mat-list-icon>school</mat-icon>
+							<h3 mat-line>Qualification</h3>
+							<p mat-line>
+							<span>SSC (Not filled)</span>
+							</p>
+							<p mat-line>
+							<span>HSC (Filled)</span>
+							</p>
+							<div><mat-icon>block</mat-icon></div>
+						</mat-list-item>
+						<mat-list-item>
+							<mat-icon mat-list-icon>build</mat-icon>
+							<h3 mat-line>Experience</h3>
+							<p mat-line>
+							<span>Done</span>
+							</p>
+						</mat-list-item>
+					</mat-list>
+				</mat-card>
+			</div>
+		</div>
+		  <mat-card [hidden]="!showMsg" color="accent" style="margin: 10px">
+    <mat-card-content>
+        <div class="row">
+          <div fxFlex="5" [hidden]="!processing" ><mat-progress-spinner mode="indeterminate" color="accent" diameter="32"></mat-progress-spinner></div>
+          <div fxFlex="5" [hidden]="!msgIcon"><mat-icon style="font-size: 24px">{{msgIcon}}</mat-icon></div>
+          
+          <div fxFlex="95"  style="margin-top: 7px">{{ msgCode | translate }} 
+            <!-- <div [hidden]="!msgDetails"> -->
+              : {{msgDetails}}  
+            <!-- </div> -->
+            
+          </div>
+        </div>
+    </mat-card-content>
+  </mat-card>
+
+       {{'msg006' | translate}} <a mat-raised-button color="accent" (click)="lockApplication(applicationid)"  > Yes <mat-icon>done_all</mat-icon></a>
+    </mat-card>
+
+    </div>
+
+  </div>
+  
+</div>
+
+
+</div>

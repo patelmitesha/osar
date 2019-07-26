@@ -1,0 +1,19 @@
+mat-card{
+	margin: 10px;
+}
+
+mat-card-content{
+	width: 100%;
+}
+
+mat-form-field{
+	width: 100%;
+}
+
+.row{
+	margin-top: 20px;
+}
+
+[hidden]{
+	display: none;
+}

@@ -1,0 +1,26 @@
+.app{
+	font-family: roboto;
+}
+
+
+.error{
+    border: solid;
+    border-color: orangered;
+    border-radius: 4px;
+    background-color: antiquewhite;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.success{
+    border-color: #3c763d;
+    border-style:  solid;
+    background-color:  #dff0d8;
+    color:  #3c763d;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-right: 0px;
+    margin-left: 0px;
+}

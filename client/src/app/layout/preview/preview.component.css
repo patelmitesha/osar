@@ -1,0 +1,38 @@
+mat-card{
+	margin: 10px;
+}
+
+
+
+.resume{
+	font-family: Roboto,  sans-serif;
+}
+.personaldata-title{
+	font-size: 20px;
+	padding-top: 20px;
+	font-weight: bold;
+	border-bottom: solid;
+	border-color: lightgray;
+}
+
+
+.personaldata-label{
+	font-size: 15px;
+	font-weight: bold;
+	text-align: left;
+	vertical-align: top;
+	padding-top: 10px;
+	border-bottom:solid;
+	border-width: thin;
+	border-color: lightgray;	
+}
+
+.personaldata-text{
+	font-size: 15px;
+	text-align: left;
+	padding-top: 10px;
+	vertical-align: top;
+	border-bottom: solid;
+	border-width: thin;
+	border-color: lightgray;
+}

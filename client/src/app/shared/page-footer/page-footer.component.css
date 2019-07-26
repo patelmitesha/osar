@@ -1,0 +1,8 @@
+.license-footer {
+    -webkit-align-self: flex-end;
+    align-self: flex-end;
+    width: 100%;
+    text-align: center;
+    font-size: small;
+    border-top: 1px solid #ddd;
+}

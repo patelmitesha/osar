@@ -1,0 +1,651 @@
+
+<div class="container" fxLayout.xs="row" fxLayout.sm="column" style="background-color: #ededed" >
+  <div fxFlex="100">
+    <mat-progress-bar [hidden]="showSpinner" mode="indeterminate" color="accent"></mat-progress-bar>
+  <form [formGroup]="applicationForm" (ngSubmit)="submitApplication(applicationForm)" novalidate method='POST'>
+  <div class="container" fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center">
+  <div fxFlex="70">
+<!--     <mat-error *ngIf="validationError">
+      Validation Error : {{validationError | json}}<br>
+    </mat-error>
+ -->
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h3> <mat-icon mat-list-icon>mode_edit</mat-icon> {{ 'personal' | translate }} Information   </h3>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+         <div fxFlex="100">
+            <input type="hidden" name="_id" formControlName="_id"  />
+            <div class="row" style="width: 100%">
+              <label > {{ 'salutation' | translate }} : </label>
+              <mat-radio-group formControlName="salutation">
+                <mat-radio-button  value="Shri." [checked]="isChecked"> Shri. </mat-radio-button>
+                <mat-radio-button  value="Smt."> Smt. </mat-radio-button>
+                <mat-radio-button  value="Ms." > Ms. </mat-radio-button>
+                <mat-radio-button  value="Dr." > Dr. </mat-radio-button>
+              </mat-radio-group>
+
+              <mat-error *ngIf="validationError">
+                <div *ngIf="validationError.salutation">
+                    {{validationError.salutation.message}}
+                </div>
+              </mat-error>
+              <mat-error *ngIf="!applicationForm.get('salutation').valid && applicationForm.get('salutation').touched">You must select salutation.</mat-error>
+            </div>
+     
+          <!-- V Full Name starts here V -->
+            <div class="row">
+              <mat-form-field hintLabel="Name as per SSC marksheet">
+                <input type="text" required name="firstname" placeholder="{{ 'firstname' | translate }}" matInput formControlName="firstname"  />
+                <!--Touched : <p> {{applicationForm.get('firstname').touched}}</p>
+                value: <p>{{ applicationForm.get('firstname').value | json }}</p>
+                status: <p>{{ applicationForm.get('firstname').status }}</p>-->
+                <mat-hint align="end">1/10</mat-hint>
+                <mat-error *ngIf="!applicationForm.get('firstname').valid && applicationForm.get('firstname').errors.required">
+                  {{'err007' | translate }} 
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('firstname').valid && applicationForm.get('firstname').errors.maxlength">
+                  {{'err008' | translate }}  {{applicationForm.get('firstname').errors.maxlength.requiredLength}} {{'err009' | translate }}  
+                </mat-error>
+
+              </mat-form-field>
+              <mat-error *ngIf="validationError">
+                <mat-error *ngIf="validationError.firstname">
+                      {{validationError.firstname.message}}    
+                </mat-error>
+              </mat-error>
+
+          <!-- V Full Name ends here V -->
+          </div>
+
+          <!-- V Husband Name starts here V -->
+          <div class="row">
+            <mat-form-field>
+              <input type="text" matInput name="fatherhusbandname" required placeholder="{{ 'fatherhusbandname' | translate }}" formControlName="fatherhusbandname"  />
+              
+              <mat-error *ngIf="!applicationForm.get('fatherhusbandname').valid && applicationForm.get('fatherhusbandname').errors.required">
+                {{'err007' | translate }} 
+              </mat-error>
+              <mat-error *ngIf="!applicationForm.get('fatherhusbandname').valid && applicationForm.get('fatherhusbandname').errors.maxlength">
+                {{'err008' | translate }} {{applicationForm.get('fatherhusbandname').errors.maxlength.requiredLength}} {{'err009' | translate }}
+              </mat-error>
+
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.fatherhusbandname">
+                {{validationError.fatherhusbandname.message}}   
+              </div>
+            </mat-error>
+          <!-- V Husband Name starts here V -->
+          </div>
+
+
+
+          <!-- V Gender starts here V  -->
+          <div class="row">
+            <label>{{ 'gender' | translate }} </label>
+            <mat-radio-group formControlName="gender" >
+              <mat-radio-button checked name="gender" matInput value="Male" >
+                Male
+              </mat-radio-button>
+              <mat-radio-button name="gender" value="Female">
+                Female
+              </mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.gender">
+                {{validationError.gender.message}}
+              </div>
+            </mat-error>
+            <mat-error *ngIf="!applicationForm.get('gender').valid && applicationForm.get('gender').touched">Invalid gender.</mat-error>
+
+          <!-- V Gender starts here V -->
+          </div>
+
+          <br>
+          <!-- V Category starts here V  -->
+          <div class="row">
+            <label>{{ 'category' | translate }} : </label>
+            <mat-radio-group  formControlName="category">
+              <mat-radio-button name="category"  value="GEN"  >
+                GEN
+              </mat-radio-button>
+              <mat-radio-button name="category" value="SC" >
+                SC
+              </mat-radio-button>
+              <mat-radio-button name="category" value="ST" >
+                ST
+              </mat-radio-button>
+              <mat-radio-button name="category" value="OBC" >
+                OBC
+              </mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="validationError">
+                  <div *ngIf="validationError.category">  {{validationError.category.message}}
+                  </div>
+                </mat-error>
+
+                <mat-error *ngIf="!applicationForm.get('category').valid && applicationForm.get('category').touched">You must enter category.</mat-error>
+          <!-- V Gender starts here V -->
+          </div>
+
+
+
+          <!-- V Birth Date starts here V -->
+          <div class="row">
+            <!-- {{applicationForm.get('dateofbirth').value}} -->
+          <mat-form-field>
+            <input matInput [matDatepicker]="toDTPicker" name="dateofbirth" formControlName="dateofbirth" placeholder="{{ 'birthdate' | translate }}">    
+            <mat-datepicker-toggle matSuffix [for]="toDTPicker"></mat-datepicker-toggle>    
+            <mat-datepicker #toDTPicker></mat-datepicker>   
+          </mat-form-field> 
+            <mat-error *ngIf="!applicationForm.get('dateofbirth').valid && applicationForm.get('dateofbirth').touched">
+              You must enter dateofbirth.
+            </mat-error>
+          
+          <mat-error *ngIf="validationError">
+            <div *ngIf="validationError.dateofbirth"> {{validationError.dateofbirth.message}}</div>
+          </mat-error> 
+          <!-- V Birth Date ends here V -->
+          </div>
+
+
+
+         <!-- V Nationality starts here V -->
+          <div class="row">
+            <mat-form-field>
+              <input type="text" required matInput name="nationality" formControlName="nationality" placeholder="{{ 'nationality' | translate }}"  />
+            
+              <mat-error *ngIf="!applicationForm.get('nationality').valid && applicationForm.get('nationality').errors.required">
+                {{'err007' | translate }} 
+              </mat-error>
+              <mat-error *ngIf="!applicationForm.get('nationality').valid && applicationForm.get('nationality').errors.maxlength">
+                {{'err008' | translate }} {{applicationForm.get('nationality').errors.maxlength.requiredLength}} {{'err009' | translate }}
+              </mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+                <div *ngIf="validationError.nationality">
+                  {{validationError.nationality.message}}
+                </div>
+            </mat-error>
+          <!-- V Nationality ends here V -->
+          </div>
+        
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+
+
+
+
+    <mat-card>
+        <mat-card-header>
+        <mat-card-title>
+          <h3> <mat-icon mat-list-icon>mode_edit</mat-icon> {{ 'address' | translate }}   </h3>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row" >
+            <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100">
+
+                <!-- V Building Number starts here V -->
+                  <mat-form-field>
+                    <input type="text" required matInput name="buildingno" formControlName="buildingno" placeholder="{{ 'buildingno' | translate }}"  />
+
+                  <mat-error *ngIf="!applicationForm.get('buildingno').valid && applicationForm.get('buildingno').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                  <mat-error *ngIf="!applicationForm.get('buildingno').valid && applicationForm.get('buildingno').errors.maxlength">
+                    {{'err008' | translate }} {{applicationForm.get('buildingno').errors.maxlength.requiredLength}} {{'err009' | translate }}
+                  </mat-error>
+                  </mat-form-field>    
+                  <mat-error *ngIf="validationError">
+                    <div *ngIf="validationError.buildingno">
+                    {{validationError.buildingno.message}}
+                    </div>
+                  </mat-error>              
+                <!-- V Building Number ends here V -->
+            </div>
+            <div   fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100">
+                            
+               <!-- V Street starts here V -->
+                <mat-form-field>
+                  <input type="text" matInput name="street" formControlName="street" placeholder="{{ 'street' | translate }}"  />
+                          
+                  <mat-error *ngIf="!applicationForm.get('street').valid && applicationForm.get('street').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                  <mat-error *ngIf="!applicationForm.get('street').valid && applicationForm.get('street').errors.maxlength">
+                    {{'err008' | translate }} {{applicationForm.get('street').errors.maxlength.requiredLength}} {{'err009' | translate }}
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-error *ngIf="validationError">
+                  <div *ngIf="validationError.street">
+                    {{validationError.street.message}}
+                  </div>
+                </mat-error>
+                        <!-- V Street ends here V -->
+
+            </div>
+          </div>
+
+
+          <div  class="container" fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row" >
+            <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100">
+
+
+              <!-- V Area starts here V -->
+              <div class="row">
+                <mat-form-field>
+                  <input type="text" matInput name="area" formControlName="area" placeholder="{{ 'area' | translate }}"  />
+                
+                  <mat-error *ngIf="!applicationForm.get('area').valid && applicationForm.get('area').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                  <mat-error *ngIf="!applicationForm.get('area').valid && applicationForm.get('area').errors.maxlength">
+                    {{'err008' | translate }} {{applicationForm.get('area').errors.maxlength.requiredLength}} {{'err009' | translate }}
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-error *ngIf="validationError">
+                  <div *ngIf="validationError.area">{{validationError.area.area}}
+                  </div>
+                </mat-error>
+              <!-- V Area ends here V -->
+              </div>
+
+
+            </div>
+            <div  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100">
+
+                <!-- V City starts here V -->
+                <div class="row">
+                  <mat-form-field>
+                    <input type="text" matInput name="city" formControlName="city" placeholder="{{ 'city' | translate }}"  />
+                  
+                  <mat-error *ngIf="!applicationForm.get('city').valid && applicationForm.get('city').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                  <mat-error *ngIf="!applicationForm.get('city').valid && applicationForm.get('city').errors.maxlength">
+                    {{'err008' | translate }} {{applicationForm.get('city').errors.maxlength.requiredLength}} {{'err009' | translate }}
+                  </mat-error>
+
+                  </mat-form-field>
+                  <mat-error *ngIf="validationError">
+                    <div *ngIf="validationError.city">
+                    {{validationError.city.message}}
+                    </div>
+                  </mat-error>
+                <!-- V City ends here V -->
+                </div>
+
+            </div>
+          </div>
+         
+
+      
+          
+
+ <div  class="container"  fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row" >
+            <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100">
+
+
+     <!-- V state starts here V -->
+          <div class="row">
+            <mat-form-field>
+              <mat-select required  matInput name="state" formControlName="state" placeholder="{{ 'state' | translate }}">
+                <mat-option value="Gujarat">
+                  <span>Gujarat</span>
+                </mat-option>
+              </mat-select>
+            
+
+                  <mat-error *ngIf="!applicationForm.get('state').valid && applicationForm.get('state').touched">You must enter state.</mat-error>
+            </mat-form-field>
+
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.state">{{validationError.state.message}}
+              </div>
+            </mat-error>
+          <!-- V state ends here V -->
+          </div>
+
+  </div>
+<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100">
+
+
+      <!-- V state starts here V -->
+          <div class="row">
+            <mat-form-field>
+              <input type="text" required matInput name="country" formControlName="country" placeholder="{{ 'country' | translate }}"  />
+            
+
+                  <mat-error *ngIf="!applicationForm.get('country').valid && applicationForm.get('country').touched">You must enter country.</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.country">{{validationError.country.message}}
+              </div>
+            </mat-error>
+          <!-- V state ends here V -->
+          </div>
+
+
+  </div>
+</div>
+
+         
+
+
+        
+          <!-- V pincode starts here V -->
+          <div class="row">
+            <mat-form-field>
+              <input type="text" required matInput name="pincode" formControlName="pincode" placeholder="{{ 'pincode' | translate }}"  />
+            
+
+                  <mat-error *ngIf="!applicationForm.get('pincode').valid && applicationForm.get('pincode').touched">You must enter pincode.</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.pincode">{{validationError.pincode.message}}
+              </div>
+            </mat-error>
+          <!-- V pincode ends here V -->
+          </div>
+
+
+
+          <!-- V phonenumber starts here V -->
+          <div class="row">
+            <mat-form-field>
+              <input type="text" matInput name="telno" formControlName="telno" placeholder="{{ 'phoneno' | translate }}"  />
+            
+
+                  <mat-error *ngIf="!applicationForm.get('telno').valid && applicationForm.get('telno').touched">You must enter telno.</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.telno">{{validationError.telno.message}}
+              </div>
+            </mat-error>
+          <!-- V phonenumber ends here V -->
+          </div>
+
+
+          <!-- V mobno starts here V -->
+          <div class="row">
+            <mat-form-field>
+              <input type="text" required matInput name="mobno" formControlName="mobno" placeholder="{{ 'mobileno' | translate }}"  />
+            
+
+                  <mat-error *ngIf="!applicationForm.get('mobno').valid && applicationForm.get('mobno').touched">You must enter mobno.</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.mobno">{{validationError.mobno.message}}
+              </div>
+            </mat-error>
+          <!-- V mobno ends here V -->
+          </div>
+
+
+          <!-- V mobno starts here V -->
+          <div class="row">
+            <mat-form-field>
+              <input type="text" required matInput name="nearestrlystn" formControlName="nearestrlystn" placeholder="{{ 'nearestrlystn' | translate }}"  />
+            
+
+                  <mat-error *ngIf="!applicationForm.get('nearestrlystn').valid && applicationForm.get('nearestrlystn').touched">You must enter nearestrlystn.</mat-error>
+            </mat-form-field>    
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.nearestrlystn">{{validationError.nearestrlystn.message}}
+              </div>
+            </mat-error>
+          <!-- V mobno ends here V -->
+          </div>
+
+
+        </div>
+
+      </mat-card-content>
+      </mat-card>
+  </div>
+  <div fxFlex="30">
+
+    <mat-card >
+      <mat-card-header primary>
+        <mat-card-title>
+          <h3 > Application For </h3>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+         <!-- advertisement details starts -->
+          <div class="row">
+            <mat-form-field>
+              <input type="text" name="advertisementno" matInput formControlName="advertisementno" placeholder="{{ 'advertisementno' | translate }}"   /> 
+            
+
+              <mat-error *ngIf="!applicationForm.get('advertisementno').valid && applicationForm.get('advertisementno').touched">You must enter advertisementno.</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.advertisementno">{{validationError.advertisementno.message}}
+              </div>
+            </mat-error>
+          </div>
+
+          <div class="row">
+            <mat-form-field>
+              <input type="text" name="postcode" matInput formControlName="postcode" placeholder="{{ 'post' | translate }}" />
+            
+
+              <mat-error *ngIf="!applicationForm.get('postcode').valid && applicationForm.get('postcode').touched">You must enter postcode.</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.postcode">{{validationError.postcode.message}}
+              </div>
+            </mat-error>
+          </div>
+
+          <div class="row">
+            <mat-form-field>
+              <input type="text" name="subjectcode" matInput formControlName="subjectcode" placeholder="{{ 'subject' | translate }}" />
+            
+
+              <mat-error *ngIf="!applicationForm.get('subjectcode').valid && applicationForm.get('subjectcode').touched">You must enter subjectcode.</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.subjectcode">{{validationError.subjectcode.message}}
+              </div>
+            </mat-error>
+          </div>
+          <!-- advertisement details ends here -->
+      </mat-card-content>
+    </mat-card>
+
+        
+            <!-- V Disability Type starts here V  -->
+
+
+<mat-accordion >
+  <mat-expansion-panel style="margin: 10px">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+         <mat-slide-toggle formControlName="physicalhandicap" name="physicalhandicap" labelPosition="after" >Physically Handicap ?</mat-slide-toggle>
+          <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.physicalhandicap">
+                  {{validationError.physicalhandicap.message}}   
+              </div>
+          </mat-error>
+                
+          <mat-error *ngIf="!applicationForm.get('physicalhandicap').valid && applicationForm.get('physicalhandicap').touched">You must enter physicalhandicap.</mat-error>
+
+
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+            <mat-radio-group formControlName="handicaptype">
+              <mat-radio-button checked  name="handicaptype"  value="VISUAL"   >
+                {{ 'visual' | translate }}
+              </mat-radio-button>
+              <mat-radio-button name="handicaptype"  value="HEARING IMPAIRED" >
+                {{ 'hearing' | translate }}
+              </mat-radio-button>
+              <mat-radio-button name="handicaptype"  value="ORTHOPEDIC" >
+                {{ 'orthopedic' | translate }}
+              </mat-radio-button>
+            </mat-radio-group>
+
+                <mat-error *ngIf="!applicationForm.get('handicaptype').valid && applicationForm.get('handicaptype').touched">You must enter handicaptype.</mat-error>
+
+              <mat-form-field>
+              <mat-error *ngIf="validationError">
+                <div *ngIf="validationError.handicaptype">
+                {{validationError.handicaptype.message}}
+                </div>
+              </mat-error>
+            <textarea  name="handicapdetails" matInput formControlName="handicapdetails" placeholder="Disability Details"  ></textarea>
+        
+            <mat-error *ngIf="!applicationForm.get('handicapdetails').valid && applicationForm.get('handicapdetails').touched">You must enter handicapdetails.</mat-error>
+          </mat-form-field>
+          <mat-error *ngIf="validationError">
+            <div *ngIf="validationError.handicapdetails">
+              {{validationError.handicapdetails.message}}
+            </div>
+          </mat-error>
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+
+
+
+
+
+
+
+<mat-accordion>
+  <mat-expansion-panel style="margin: 10px">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+<mat-slide-toggle formControlName="exserviceman" name="exserviceman">{{ 'exserviceman' | translate }}</mat-slide-toggle>
+           <mat-error *ngIf="validationError">
+                <div *ngIf="validationError.exserviceman">
+                  {{validationError.exserviceman.message}}
+                </div>
+              </mat-error>
+              <mat-error *ngIf="!applicationForm.get('exserviceman').valid && applicationForm.get('exserviceman').touched">You must enter exserviceman.</mat-error>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+        <div class="row">
+            <mat-radio-group formControlName="exservicemanfrom">
+              <mat-radio-button   name="exservicemanfrom"  value="ARMY" > {{ 'army' | translate }} 
+              </mat-radio-button>
+              <mat-radio-button name="exservicemanfrom"  value="NAVY" > {{ 'navy' | translate }} 
+              </mat-radio-button>
+              <mat-radio-button name="exservicemanfrom"  value="AIR FORCE" > {{ 'airforce' | translate }}
+              </mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="validationError">
+              <div *ngIf="validationError.exservicemanfrom">
+                {{validationError.exservicemanfrom.message}}
+              </div>
+            </mat-error>
+            <mat-error *ngIf="!applicationForm.get('exservicemanfrom').valid && applicationForm.get('exservicemanfrom').touched">
+              You must enter exservicemanfrom.
+            </mat-error>
+        </div>
+
+
+        <div class="row">
+          <mat-form-field>
+            <input type="text" name="dateofreleived" matInput formControlName="dateofreleived"  placeholder="Date of Releived"  />
+            <mat-error *ngIf="!applicationForm.get('dateofreleived').valid && applicationForm.get('dateofreleived').touched">You must enter dateofreleived.</mat-error>
+          </mat-form-field>
+          <mat-error *ngIf="validationError">
+            <div *ngIf="validationError.dateofreleived">
+              {{validationError.dateofreleived.message}}
+            </div>
+          </mat-error>
+        </div>
+
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+
+<!--          <br> Form : {{applicationForm.value | json}} <br> -->
+
+      
+
+<mat-accordion>
+  <mat-expansion-panel style="margin: 10px">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div class="row">
+
+          <mat-slide-toggle formControlName="govtserv" name="govtserv">{{ 'governmentservice' | translate }}</mat-slide-toggle>
+              <mat-error *ngIf="!applicationForm.get('govtserv').valid && applicationForm.get('govtserv').touched">You must enter govtserv.</mat-error>
+              <mat-error *ngIf="validationError">
+                <div *ngIf="validationError.govtserv">
+                  {{validationError.govtserv.message}}
+                </div>
+              </mat-error>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+  
+  </div>
+
+
+</div>
+<div class="container">
+  <mat-card [hidden]="!showMsg" color="accent" style="margin: 10px">
+    <mat-card-content>
+        <div class="row">
+          <div fxFlex="5" [hidden]="!processing" ><mat-progress-spinner mode="indeterminate" color="accent" diameter="32"></mat-progress-spinner></div>
+          <div fxFlex="5" [hidden]="!msgIcon"><mat-icon style="font-size: 24px">{{msgIcon}}</mat-icon></div>
+          
+          <div fxFlex="95"  style="margin-top: 7px">{{ msgCode | translate }} 
+            <!-- <div [hidden]="!msgDetails"> -->
+              : {{msgDetails}}  
+            <!-- </div> -->
+            
+          </div>
+        </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="container" align="center">
+        <span *ngIf="applicationForm.get('_id').value">
+          <a mat-raised-button color="accent" [routerLink]="['/layout/preview',applicationForm.get('_id').value]"
+            ><mat-icon>keyboard_arrow_left</mat-icon> {{ 'back' | translate }} </a>
+        </span>
+        <span *ngIf="!applicationForm.get('_id').value">
+          <a mat-raised-button color="accent" [routerLink]="['/layout/dashboard']"
+            ><mat-icon>keyboard_arrow_left</mat-icon> {{ 'back' | translate }} </a>
+        </span>
+        
+        <button mat-raised-button color="primary" type="submit" [disabled]="applicationForm.invalid" ><mat-icon>check</mat-icon> {{ 'save' | translate }}</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+</form>
+</div>
+</div>

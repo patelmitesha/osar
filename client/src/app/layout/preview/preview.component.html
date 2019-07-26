@@ -1,0 +1,218 @@
+<div class="container resume" style="font-family: Roboto,  sans-serif;">
+	
+	<mat-card style="padding: 5px;">
+		<mat-card-content>
+
+		<div class="container" fxLayout fxLayout.xs="row" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row" >
+			<div style="background-color: black; color: white; width: 100%; text-align: center; padding: 40px; ">
+				<h1>{{application.firstname}}</h1>
+			</div>
+		</div>
+		<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row" >
+			<div fxFlex fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30" fxFlex.lg="30"  fxFlex.xl="30" style="background-color: #EAEAEA;">
+				<div style="background-color: #EAEAEA; padding: 10px;">
+					<div style="padding-left: 20px">
+						<div style="text-align: center; width: 100%">
+							<mat-icon style="width:200px;height:200px;font-size: 200px;">account_circle</mat-icon>
+						</div>
+						<div style="text-align: left; width: 100%">
+							<table style="width: 100%">
+								<tr>
+									<td class="personaldata-title">
+										{{ 'personal' | translate }}
+									</td>
+									<td class="personaldata-title" style="text-align: right;">
+										<div  [hidden]="application.islocked" >
+											<a  mat-button color="primary" style="border:thin; border-style: solid;min-width: 1%"  [routerLink]="['/layout/personalinfo',application._id]" ><mat-icon>mode_edit</mat-icon> {{ 'edit' | translate }}</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="personaldata-label">{{ 'fatherhusbandname' | translate }}</td>
+									<td class="personaldata-text">{{application.fatherhusbandname}}</td>
+								</tr>
+								<tr>
+									<td class="personaldata-label">{{ 'gender' | translate }}</td>
+									<td class="personaldata-text">{{application.gender}}</td>
+								</tr>
+								<tr>
+									<td class="personaldata-label">{{ 'category' | translate }}</td>
+									<td class="personaldata-text">{{application.category}}</td>
+								</tr>
+
+								<tr>
+									<td class="personaldata-label">{{ 'birthdate' | translate }}</td>
+									<td class="personaldata-text">{{application.dateofbirth | date:'dd MMMM, yyyy'}}</td>
+								</tr>
+
+								<tr>
+									<td class="personaldata-label">Age</td>
+									<td class="personaldata-text">{{application.age}}</td>
+								</tr>
+
+								<tr>
+									<td class="personaldata-label">{{ 'nationality' | translate }}</td>
+									<td class="personaldata-text">{{application.nationality}}</td>
+								</tr>
+
+								
+								<tr>
+									<td colspan="2" class="personaldata-title">
+										{{ 'contact' | translate }}
+									</td>
+								</tr>
+								<tr>
+									<td class="personaldata-label">{{ 'mobileno' | translate }}</td>
+									<td class="personaldata-text">{{application.mobno}}</td>
+								</tr>
+								<tr>
+									<td class="personaldata-label">{{ 'phoneno' | translate }}</td>
+									<td class="personaldata-text">{{application.telno}}</td>
+								</tr>
+								<tr>
+									<td class="personaldata-label">{{ 'email' | translate }}</td>
+									<td class="personaldata-text">{{application.email}}</td>
+								</tr>
+								<tr>
+									<td class="personaldata-label">{{ 'address' | translate }}</td>
+									<td class="personaldata-text">{{application.buildingno}}, <br />
+								{{application.street}},<br /> {{application.area}},<br />
+								{{application.city}},<br /> {{application.state}},<br />
+								{{application.country}},<br /> {{application.pincode}}<br /></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			<div fxFlex fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70">
+				<div style="padding: 20px; " >
+					<div style="padding-top: 10px; font-size: 20px; font-weight: bold;">
+						<div class="container">
+					
+							<div fxFlex fxFlex.xs="70" fxFlex.sm="70" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70">
+								{{ 'educationalqualification' | translate }}
+							</div>
+							
+							<div style='text-align: right;'  fxFlex fxFlex.xs="30" fxFlex.sm="30" fxFlex.md="30" fxFlex.lg="30"  fxFlex.xl="30">
+								<div  [hidden]="application.islocked" >
+									<button mat-button mat-small color="primary" style="border:thin; border-style: solid;min-width: 1%" [mat-menu-trigger-for]="addqualificationMenu">
+							    		<mat-icon>add</mat-icon>  Add
+									</button>
+								</div>
+							<mat-menu #addqualificationMenu="matMenu">
+								<div *ngFor="let remainingCourse of remainingCourses" class="col-sm-3" >
+									<div *ngIf="!remainingCourse.isfilled">
+										<a [routerLink]="['/layout/qualificationinfo',application._id,remainingCourse.courseconfigid]" mat-menu-item >{{remainingCourse.nameofexam}}</a>
+									</div>
+								</div>
+							</mat-menu>
+							
+							</div>
+							</div>	
+						<mat-divider></mat-divider>
+					
+					</div>
+
+      
+					<table>
+
+						<div *ngFor="let qualification of application.qualifications">
+							<tr >
+								<td style="padding-left: 10px" colspan="2">
+									<mat-chip-list>
+										<mat-chip>{{qualification.yearofpassing}}</mat-chip>
+										<span style="margin-top: 2px;margin-bottom: 2px; font-weight: bold; padding-left: 20px">{{qualification.nameofexam}}</span>
+									</mat-chip-list>
+									
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 50px">	
+									&nbsp;
+								</td>
+								<td style="border-left: solid; border-color: gray; padding-left: 10px; padding-top: 10px; padding-bottom: 10px ">								
+									{{qualification.course}} - {{qualification.subject}}<br>
+									{{qualification.examtype}} - {{qualification.aggregate}}% ({{qualification.examclass}} Class)  <br />
+									Result Awaited : {{qualification.resultawaited}} <br />
+									{{qualification.universityboard}} <br>
+										<span class="pull-right text-muted small" [hidden]="application.islocked" >
+										<a mat-button color="accent" style="border:thin; border-style: solid;" [routerLink]="['/layout/editqualificationinfo',application._id, qualification._id ]"
+														>
+											<mat-icon>mode_edit</mat-icon>{{ 'edit' | translate }}  </a>
+											<button mat-button color="accent" style="border:thin; border-style: solid;" (click)="deletequalification(application._id,qualification._id)"><mat-icon>delete</mat-icon>{{ 'delete' | translate }}</button>
+									</span>
+								<!-- / forEach -->
+								</td>
+							</tr>
+						</div>
+					</table>
+					<!-- Qualification ends here -->
+				</div>
+				
+				<div style="padding: 20px; " >
+					<div style="padding-top: 10px; font-size: 20px; font-weight: bold;">
+						<div class="container">
+							<div fxFlex fxFlex.xs="70" fxFlex.sm="70" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70">
+								{{ 'workexperience' | translate }}
+							</div>
+							
+							<div style='text-align: right;'  fxFlex fxFlex.xs="30" fxFlex.sm="30" fxFlex.md="30" fxFlex.lg="30"  fxFlex.xl="30">
+								<div [hidden]="application.islocked" >
+									<a mat-button color="primary" style="border:thin; border-style: solid;" [routerLink]="['/layout/experienceinfo',application._id]" ><mat-icon>add</mat-icon> {{ 'add' | translate }} </a>
+								</div>
+							</div>
+						</div>
+						<mat-divider></mat-divider>
+					</div>
+
+					<table>
+
+					<div *ngFor="let experience of application.experiences">
+							<tr >
+								<td style="padding-left: 10px" colspan="2">
+									<mat-chip-list>
+										<mat-chip>{{experience.fromdate | date:'dd MMMM, yyyy'}}</mat-chip>
+										<span style="margin-top: 2px;margin-bottom: 2px; font-weight: bold; padding-left: 20px">{{experience.postheld}}</span>
+									</mat-chip-list>
+									
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 50px">	
+									&nbsp;
+								</td>
+								<td style="border-left: solid; border-color: gray; padding-left: 10px; padding-top: 10px; padding-bottom: 10px ">		
+										
+								{{experience.nameoforganization}}
+								<br /> {{experience.fromdate | date:'dd MMMM, yyyy'}} to {{experience.todate  | date:'dd MMMM, yyyy'}} - ({{experience.months}} months) <br /> Salary : <i
+									class="fa fa-rupee fa-fw"></i>{{experience.salarydrawn}}<br />
+								Nature of Duty : {{experience.natureofduty}} <br>
+								<span class="pull-right text-muted small">
+									<div [hidden]="application.islocked" >
+											<a mat-button color="accent"  style="border:thin; border-style: solid;" 
+											[routerLink]="['/layout/experienceinfo',application._id, experience._id ]"
+											><mat-icon>mode_edit</mat-icon>{{ 'edit' | translate }}</a> 
+											<button mat-button color="accent" style="border:thin; border-style: solid;" (click)="deleteexperience(application._id,experience._id)"><mat-icon>delete</mat-icon> {{ 'delete' | translate }}</button>
+									</div>
+								</span>
+								</td>
+							</tr>
+
+						<!-- / forEach -->
+						</div>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+		<div class="container" fxLayout fxLayout.xs="row" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row" >
+			<div style="background-color: black; color: white; width: 100%; text-align: center; padding: 10px; ">
+				Application No : {{application.applicationno}}
+			</div>
+		</div>
+
+		</mat-card-content>
+	</mat-card>
+</div>

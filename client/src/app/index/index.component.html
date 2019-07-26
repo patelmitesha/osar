@@ -1,0 +1,151 @@
+<div style="background-color: #36537C">
+  <img  src='../../assets/images/isskythelimit.jpg'>
+</div>
+
+
+<div class="container"  fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row">
+  <div fxFlex.xs="0" fxFlex.sm="0" fxFlex.md="10" fxFlex.lg="10" fxFlex.xl="10" > </div>
+  <div>
+    <div id="card-placement" >
+      <div  fxFlex.xs="100" fxFlex.sm="100"  fxFlex.md="100" fxFlex.lg="100"  fxFlex.xl="100">
+        <mat-card style="background-color: #f1f1f1">
+          
+
+          <div class="container" fxLayout.xs="column" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row" >
+        <div  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.lg="100"  fxFlex.xl="100">
+
+          <div *ngFor="let advertisement of advertisements">  
+              <span>
+                  {{ 'advertisementno' | translate }} : {{advertisement.advertisementno}} <br />
+                  {{ 'endingdate' | translate }} : {{advertisement.endingdate}} <br />
+                  Desctiption : {{advertisement.advertisementescription}} <br />
+              </span>
+              <mat-card *ngFor="let advtdetails of advertisement.advertisementdetails" class="mat-elevation-z3" style="padding: 0px">
+                  
+                  <div style="padding: 20px; font-weight: bold;">
+                    <span *ngFor="let post of posts"> 
+                      <span *ngIf="post.postcode == advtdetails.postcode">
+                        <mat-icon>content_paste</mat-icon>{{post.postname}} 
+                      </span>
+                    </span>
+                    <span *ngFor="let subject of subjects"> 
+                      <span *ngIf="subject.subjectcode == advtdetails.subjectcode">
+                         ( {{subject.subjectname}} )
+                      </span>
+                    </span>
+                  </div>
+                  <mat-divider></mat-divider>
+                <mat-card-content style="padding: 20px; margin-bottom: 0px">
+                  <p mat-line>{{advtdetails.essentialqualification}} <br>
+                  </p>
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <div class="container" fxLayout.xs="column" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row" style="background-color: #e9e9e9;">
+                <div  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.lg="100"  fxFlex.xl="100">
+                  <div align="start" style="padding: 20px">
+                    Post Code : {{advtdetails.postcode}}, Subject Code : {{advtdetails.subjectcode}}
+                  </div>  
+                </div>
+                <div  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30" fxFlex.lg="30"  fxFlex.xl="30">
+                <div align="end"  style="padding: 10px">
+
+                  <span>
+                    
+                     <a mat-raised-button [routerLink]="['/layout/preview']" > More <mat-icon>edit</mat-icon></a>
+                    
+                  </span>
+                  
+
+                  
+                </div>
+              </div>
+            </div>
+              </mat-card>
+          </div>
+        </div>
+          
+
+      </div>
+          <mat-card-footer *ngIf="processing==true"> 
+            Loading...
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </mat-card-footer>
+      </mat-card>
+
+      </div>
+
+    </div>
+    
+  </div>
+
+
+</div>
+<div class="container" style="background-color: #ededed" fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row" >
+  <div fxFlex.xs="0" fxFlex.sm="0" fxFlex.md="10" fxFlex.lg="10" fxFlex.xl="10" > </div>
+  <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="80" fxFlex.lg="80" fxFlex.xl="80" > 
+        <div  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30"  fxFlex.lg="30"  fxFlex.xl="30">
+          <mat-card >
+              <button style="width: 100%" mat-raised-button color="primary" routerLink="../register"> 
+                {{ 'register' | translate}} <mat-icon mat-list-icon>mode_edit</mat-icon>  </button>
+              <br /><br />
+              <button style="width: 100%" mat-raised-button color="primary" routerLink="../verifylogin" >
+                {{ 'verifylogin' | translate}} <mat-icon mat-list-icon> playlist_add_check</mat-icon></button>
+          </mat-card>
+        </div>
+
+
+        <div  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="40"  fxFlex.lg="40"  fxFlex.xl="40">
+          <mat-card >
+
+              <mat-card-header >
+                  <mat-card-title>
+                      <h3><mat-icon mat-list-icon>vpn_key</mat-icon> {{ 'login' | translate}} </h3>
+                  </mat-card-title>
+              </mat-card-header>
+              <mat-card-content >
+                <form #myForm="ngForm" (ngSubmit)="tryLogin(myForm)" method='POST'>
+                  <mat-form-field style='width: 100%'>
+                    <input type='text' matInput name='email' placeholder="{{ 'email' | translate}}" ngModel>  
+                  </mat-form-field>
+                    <br>
+                    <mat-form-field style='width: 100%'>
+                    <input matInput name='password' placeholder="{{ 'password' | translate}}" ngModel [type]="hidepassowrd ? 'password' : 'text'">
+                    <mat-icon matSuffix (click)="hidepassowrd = !hidepassowrd">{{hidepassowrd ? 'visibility' : 'visibility_off'}}</mat-icon>
+                  </mat-form-field>
+                  <mat-card [hidden]="!loginerror" color="warning" class="error">
+                    <mat-card-content>
+                      <mat-error >
+                        <mat-icon>error</mat-icon>{{ loginerror | translate}}
+                      </mat-error>
+                    </mat-card-content>
+                  </mat-card>
+                    <button style="width: 100%; padding-right: 0px; padding-left: 0px" mat-raised-button color="accent"> 
+                      <mat-progress-bar [hidden]="!loggingin" mode="indeterminate" color="accent"></mat-progress-bar>
+                    <mat-icon>fingerprint</mat-icon> {{ 'login' | translate}}</button>
+                </form>
+                <br>
+
+                <button mat-button color="primary" routerLink="../forgotpassword">
+                  
+              {{'forgotpassword' | translate}} ?</button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div  fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30"  fxFlex.lg="30"  fxFlex.xl="30">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>
+                <mat-card-title><h3> {{'contactus' | translate}} <mat-icon>chat</mat-icon> </h3></mat-card-title>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-icon>mail</mat-icon> : ao_rr@sac.isro.gov.in <br />
+              <br />  <mat-icon >call</mat-icon> : 079-26913020 / 21
+            </mat-card-content>
+            </mat-card>
+        </div>
+  </div>
+
+</div>
+
+

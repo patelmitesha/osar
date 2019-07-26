@@ -1,0 +1,37 @@
+    <mat-sidenav-container fxFlexFill>
+    	{{screenWidth}}
+      <mat-sidenav #sidenav mode="side" fxLayout="column" 
+      			[opened]="screenWidth > 959" [mode]="(screenWidth > 959) ? 'side' : 'over'" 
+      			class="mat-elevation-z6">
+      	<div  fxLayout="column" >
+			<mat-nav-list>
+
+				<mat-list-item >
+					<mat-icon>dashboard</mat-icon>
+					<a  [routerLink]="['/layout/dashboard']">
+					{{ 'Dashboard' | translate }}
+					</a>
+				</mat-list-item>
+
+				<mat-list-item >
+					<mat-icon>power_settings_new</mat-icon>
+					<button mat-menu-item (click)="tryLogout()">{{ 'logout' | translate }}</button>  
+				</mat-list-item>
+
+			</mat-nav-list>
+		</div>
+      </mat-sidenav>
+      <div style="width: 200px; background-image: '../../../assets/images/isskylimit.jps'">
+      	
+      </div>
+      <mat-sidenav-content >
+		  <div [ngStyle]="{'display' : (screenWidth > 959) ? 'none' : 'block'}">
+		    <button style="margin: 10px" type="button" mat-raised-button color="accent" (click)="sidenav.open()">Menu
+      <mat-icon>list</mat-icon> 
+    </button>
+  </div>
+      	<router-outlet></router-outlet>
+
+      </mat-sidenav-content>
+</mat-sidenav-container>
+

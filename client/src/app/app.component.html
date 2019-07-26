@@ -1,0 +1,65 @@
+
+<!--The content below is only a placeholder and can be replaced.-->
+<section class="app flex-container" fxLayout="column" fxLayoutAlign="start stretch" >
+  <!-- main container -->
+    <!-- parent container starts here -->
+    <mat-toolbar color="primary" style="height: 30px; min-height: 30px" >
+      <mat-toolbar-row>
+        <div style="font-size: small; margin-left: 0px; margin-right: 0px;">
+          <div class="col-sm-9 col-md-9" style="text-align: left; color: white; text-decoration: none; ">
+            <a href="https://india.gov.in" target="_blank" style="color: white; text-decoration: none;">{{ 'governmentofindia' | translate}}
+            </a> |<a href="http://www.dos.gov.in" target="_blank" style="color: white; text-decoration: none;"> {{ 'departmentofspace' | translate}} </a> | <a href="http://www.isro.gov.in" style="color: white; text-decoration: none;" target="_blank"> {{ 'isro' | translate}} (ISRO)</a>
+          </div>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <img src="../assets/images/Banner.jpg" style="padding-top: 5px; padding-bottom: 5px" >
+    <mat-toolbar color="primary" class="mat-elevation-z10">
+      <mat-toolbar-row>
+        <button mat-button>
+          {{ 'currentopenings' | translate}}
+        </button>
+        <button mat-button>
+          {{ 'generalguidelines' | translate}}
+        </button>
+        <button mat-button>
+          {{ 'howtoapply' | translate}} ?
+        </button>
+        <button mat-button>
+          FAQ
+        </button>
+        <span style="flex: 1 1 auto;"></span>
+
+        <button mat-button style="min-width: 1%" [mat-menu-trigger-for]="accessibilityMenu">
+        <mat-icon>color_lens</mat-icon>
+        </button>
+        <mat-menu #accessibilityMenu="matMenu">
+            <button mat-menu-item (click)="onSetTheme('default-theme')">Default</button>
+            <button mat-menu-item (click)="onSetTheme('dark-theme')">Dark</button>
+            <button mat-menu-item (click)="onSetTheme('light-theme')">Light</button>
+        </mat-menu>
+
+        <button mat-button style="min-width: 1%" [mat-menu-trigger-for]="languageMenu">
+        <mat-icon>translate</mat-icon>
+        </button>
+        <mat-menu #languageMenu="matMenu">
+            <button mat-menu-item (click)="changeLang('en')"> {{ 'English' | translate }}</button>
+            <button mat-menu-item (click)="changeLang('hi')">{{ 'Hindi' | translate }}</button>
+            
+        </mat-menu>
+
+      </mat-toolbar-row>
+    </mat-toolbar>
+        <!-- views will be injected here -->
+        <router-outlet>
+        </router-outlet>
+
+    <!-- page row ends here -->
+
+    <app-page-footer></app-page-footer>
+
+  <!-- parent container ends here -->
+</section>
+  <!-- main container -->
+
+  
