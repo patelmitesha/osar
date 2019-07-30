@@ -39,7 +39,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Set our api routes
 app.use('/api', api);
 
-app.use('/privateapi', privateapi);
+app.use('/api/privateapi', privateapi);
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   console.log('calling angular app');

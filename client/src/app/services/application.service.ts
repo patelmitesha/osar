@@ -15,7 +15,7 @@ export class ApplicationService {
       opts.headers=header;
 
     return new Promise((resolve, reject) => {
-      this.http.get('/privateapi/application',opts)
+      this.http.get('/api/privateapi/application',opts)
         .map(res => res.json())
         .subscribe(res => {
           resolve(res);
@@ -31,7 +31,7 @@ export class ApplicationService {
       header.append('x-access-token',localStorage.getItem("token"));
       let opts = new RequestOptions();
       opts.headers=header;
-      this.http.get('/privateapi/applications',opts)
+      this.http.get('/api/privateapi/applications',opts)
         .map(res => res.json())
         .subscribe(res => {
           resolve(res);
@@ -49,7 +49,7 @@ export class ApplicationService {
       let opts = new RequestOptions({headers:header});
 
     return new Promise((resolve, reject) => {
-      this.http.post('/privateapi/application',application,opts)
+      this.http.post('/api/privateapi/application',application,opts)
         .map(res => res.json())
         .subscribe(res => {
           console.log('success');
@@ -71,7 +71,7 @@ export class ApplicationService {
       let opts = new RequestOptions({headers:header});
 
     return new Promise((resolve, reject) => {
-      this.http.put('/privateapi/application',application,opts)
+      this.http.put('/api/privateapi/application',application,opts)
         .map(res => res.json())
         .subscribe(res => {
           console.log('success');
@@ -96,7 +96,7 @@ export class ApplicationService {
       let opts = new RequestOptions({headers:header, params: {_id:applicationid}});
 
     return new Promise((resolve, reject) => {
-      this.http.post('/privateapi/experience',experience,opts)
+      this.http.post('/api/privateapi/experience',experience,opts)
         .map(res => res.json())
         .subscribe(res => {
           console.log('success');
@@ -120,7 +120,7 @@ export class ApplicationService {
       let opts = new RequestOptions({headers:header, params: {_id:applicationid, experienceid:experienceid}});
 
     return new Promise((resolve, reject) => {
-      this.http.delete('/privateapi/experience',opts)
+      this.http.delete('/api/privateapi/experience',opts)
         .map(res => res.json())
         .subscribe(res => {
           console.log('success');
@@ -142,7 +142,7 @@ export class ApplicationService {
     let opts = new RequestOptions({headers:header, params: {_id:applicationid}});
 
     return new Promise((resolve, reject) => {
-      this.http.put('/privateapi/experience',experience,opts)
+      this.http.put('/api/privateapi/experience',experience,opts)
         .map(res => res.json())
         .subscribe(res => {
           console.log('success');
@@ -166,7 +166,7 @@ export class ApplicationService {
       let opts = new RequestOptions({headers:header, params: {_id:applicationid}});
 
     return new Promise((resolve, reject) => {
-      this.http.post('/privateapi/qualification',qualification,opts)
+      this.http.post('/api/privateapi/qualification',qualification,opts)
         .map(res => res.json())
         .subscribe(res => {
           console.log('success');
@@ -190,7 +190,7 @@ export class ApplicationService {
       let opts = new RequestOptions({headers:header, params: {_id:applicationid, qualificationid:qualificationid}});
 
     return new Promise((resolve, reject) => {
-      this.http.delete('/privateapi/qualification',opts)
+      this.http.delete('/api/privateapi/qualification',opts)
         .map(res => res.json())
         .subscribe(res => {
           console.log('success');
@@ -212,7 +212,7 @@ export class ApplicationService {
     let opts = new RequestOptions({headers:header, params: {_id:applicationid}});
 
     return new Promise((resolve, reject) => {
-      this.http.put('/privateapi/qualification',qualification,opts)
+      this.http.put('/api/privateapi/qualification',qualification,opts)
         .map(res => res.json())
         .subscribe(res => {
           console.log('success');

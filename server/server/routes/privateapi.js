@@ -23,7 +23,7 @@ var ctrlAuth = require('../controllers/authentication');
 var ctrlAdvertisements = require('../controllers/advertisement');
 var ctrlApplication = require('../controllers/application');
 var ctrlCourseconfig = require('../controllers/courseconfig');
-
+var ctrlPaymentgateway = require('../controllers/paymentgateway');
 // ---------------------------------------------------------
 // route middleware to authenticate and check token
 // ---------------------------------------------------------
@@ -91,5 +91,7 @@ router.put('/qualification',ctrlApplication.updatequalification);
 router.delete('/qualification',ctrlApplication.deletequalification);
 
 router.get('/courseconfigs/remaining',ctrlCourseconfig.searchremainingcourses);
+
+router.post('/paymentrequest',ctrlPaymentgateway.paymentrequest);
 
 module.exports = router;
