@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewEncapsulation,OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import {Observable} from 'rxjs/Observable';
-import { FormBuilder, FormGroup, Validators,FormControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,FormControl, FormArray, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 
@@ -41,6 +41,17 @@ export class QualificationinfoComponent implements OnInit {
 	public mode:string;
 	qualificationid:string;
 
+	processing: boolean;
+	showSpinner: boolean;
+	msgCode:String;
+	msgDetails:String;
+	showMsg:boolean;
+	msgIcon:String;
+
+	semErrFlag:boolean;
+	semErrMsg:String;
+
+	semesterwiseMarksValueChanges$;
 
 	universityboardControl:FormControl=new FormControl("",Validators.required);
 	nameofexamControl:FormControl=new FormControl("",Validators.required);
@@ -55,7 +66,11 @@ export class QualificationinfoComponent implements OnInit {
 			private courseService: CourseService,
 			private courseconfigService: CourseconfigService,
 			private formBuilder: FormBuilder) 
-	{ }
+	{ 
+		this.processing=false;
+		this.showSpinner=false;
+		this.showMsg=false;
+	}
 
 	ngOnInit() {
 
@@ -81,7 +96,7 @@ export class QualificationinfoComponent implements OnInit {
 
 			if(this.qualificationid){
 				this.mode='edit';
-			}
+			} 
 
 			if(this.mode=='edit'){
 				console.log('Inside edit');
@@ -98,20 +113,22 @@ export class QualificationinfoComponent implements OnInit {
 			nameofexam: this.nameofexamControl,
 			course: this.courseControl,
 			subject: this.subjectControl,
-			yearofpassing: [undefined,Validators.required ],
+			yearofpassing: [undefined,[Validators.required,Validators.pattern('^[0-9]+$'),Validators.maxLength(4)]],
 			universityboard: this.universityboardControl,
 			boardstate: [undefined],
-			aggregate: [undefined],
-			examclass: [undefined],
-			examtype : ['TOTAL MARKS'],
+			aggregate: [undefined,[Validators.required,Validators.pattern('^[0-9.]+$'),Validators.maxLength(5)]],
+			examclass: [undefined,[Validators.required,Validators.pattern('^[a-zA-Z ]+$'),Validators.maxLength(50)]],
+			examtype : ['Total Marks'],
 			resultawaited : [false ],
 			courseconfigid : [this.courseconfigid,Validators.required ],
 			semesterwisemarks : this.formBuilder.array([
 					this.initSemesterwisemarks(),
 				])
 		});
+		//this.qualificationForm.controls.semesterwisemarks.setValidators(this.comparisonValidator());
+		//this.semesterwiseMarksValueChanges$ = this.qualificationForm.controls['semesterwisemarks'].valueChanges;
 
-
+		//this.semesterwiseMarksValueChanges$.subscribe(semesterwisemarks => this.updateSemWiseMarks(semesterwisemarks));
 		this.getstates();
 		this.getuniversities();
 
@@ -127,10 +144,32 @@ export class QualificationinfoComponent implements OnInit {
 	initSemesterwisemarks(){
 		console.log('Init semesterwise marks');
 		return this.formBuilder.group({
-			semester : [undefined],
-			marks : [undefined],
-			grade : [undefined]
-		});
+			semester : [undefined,[Validators.pattern('^[a-zA-Z .-]+$'),Validators.maxLength(50)]],
+			marks : [undefined,[Validators.pattern('^[0-9.]+$'),Validators.maxLength(5)]],
+			grade : [undefined,[Validators.pattern('^[a-zA-Z ]+$'),Validators.maxLength(50)]],
+			semErr : null
+		},{ validator: Validators.compose([
+			this.validateSemWiseMarks('semester', 'marks','grade',{ 'semErr': true })
+		])});
+	}
+
+	validateSemWiseMarks(semester: string, marks: string,grade: string, validatorField: { [key: string]: boolean }): ValidatorFn {
+		return (c: AbstractControl): { [key: string]: boolean } | null => {
+			const sem = c.get(semester).value;
+			const mrk = c.get(marks).value;
+			const grd = c.get(grade).value;
+			//console.log("sem : "+sem+", mrk : "+mrk+", grd: "+grd);
+			if ((sem !== null) && (mrk === null || grd === null)) {	
+				console.error("error");
+				return validatorField;
+			}else{
+				console.log("hello rest");
+				//c.get(months).setValue(25);
+				//this.experienceForm.controls['months'].setValue(25);
+				//this.experienceForm.setValue({months:25});
+			}
+			return null;
+		};
 	}
 
 	addSemesterwisemarks(){
@@ -144,6 +183,30 @@ export class QualificationinfoComponent implements OnInit {
 		control.removeAt(i);
 	}
 
+	private updateSemWiseMarks(semesterwisemarks: any) {
+		// get our semesterwisemarks group controll
+		
+		
+
+		let gradeErr = false; 
+		//console.error("empty grade marks"+control);
+		for (let i in semesterwisemarks) {
+			console.error("hello: "+this.qualificationForm['semester']);
+		//	const control = <FormArray>this.qualificationForm.get('semesterwisemarks').controls[i].get('questions');
+
+		  let semName = semesterwisemarks[i].semester;
+		  let semMarks = semesterwisemarks[i].marks;
+		  let semGrade = semesterwisemarks[i].grade;
+		  if(semName!= '' && (semGrade == '' || semGrade == null || semMarks == '' || semMarks == null) ){
+			console.error("empty grade marks");
+			this.semErrFlag = true;
+			this.semErrMsg = "Please fill Marks / Grade.";
+		  }
+		  
+		  // now format total price with angular currency pipe
+		  
+		}
+	  }
 
 	displayFn(value: any): string {
 		return value && typeof value === 'object' ? value.name : value;
@@ -200,6 +263,7 @@ export class QualificationinfoComponent implements OnInit {
 			//	if courseconfig is available then get the course
 			this.courseService.getcourses(courseconfigid).then((res)=>{
 				this.coursesdata=res;
+				console.log("coursesdata"+this.coursesdata);
 				this.nameofexamControl.setValue(this.coursesdata.nameofexam);
 				if(this.coursesdata.courses.length==1){
 					console.log('Its length is one');
@@ -299,10 +363,6 @@ export class QualificationinfoComponent implements OnInit {
 					});
 					// getting course details ends here
 
-
-					
-
-
 					isQualificationFound=true;
 					break;
 				}
@@ -326,15 +386,65 @@ export class QualificationinfoComponent implements OnInit {
 		console.log(qualificationForm);
 		if(qualificationForm.value._id){
 			//update
+			console.log("Trying to update data");
+			this.showMessage('processing','msg003','');
+			this.applicationService.updatequalification(this.applicationid, qualificationForm.value).then((res)=>{
+				console.log(res);
+				this.showMessage('success','msg009','');
+			},(err) => {
+				this.clearMessage();
+				console.log("Error occured: "+err.status);
+				console.log(err);
+				if(err.status == 0){
+					this.showMessage('error','err0011','');
+				}else{
+					if(err._body){
+						try{
+							var error=JSON.parse(err._body);
+							if (error) {
+								// for (var field in error.errors) {
+								// 	console.log('err : '+field);
+								// }
+								console.log('error : ');
+
+			  					if(err.status==422) {
+			  						console.log('inside 422');
+			  						console.log(error);
+				  					this.validationError=error.errors;
+				  					this.showMessage('error','err0010',error);
+								}
+							}
+						}catch(e){
+							console.log(e);
+							this.showMessage('error','err006',e);
+						}
+				
+					// console.log(error);
+						
+					}else{
+						if(err.status === 0){
+							console.log('Network error');
+							this.showMessage('error','err0011','Unable to connect');
+						}else{
+							console.log("Status : " + err.status);
+							this.showMessage('error','err006',err);
+						}
+
+					}
+				}
+				
+
+			});
 		}else{
-			//insert
+
+
+				this.clearMessage();
+
 			console.log("Trying to insert new qualification");
 			this.applicationService.savequalification(this.applicationid, qualificationForm.value).then((res)=>{
 
-				console.log('successfully inserted qualification data');
-				
-				console.log(res);		  
-
+				console.log('successfully inserted data');
+				this.showMessage('success','msg008','');
 			},(err) => { 
 
 				if(err._body){
@@ -345,21 +455,71 @@ export class QualificationinfoComponent implements OnInit {
 console.log('var names : '+field.message);
 					}*/
 
-	  					if(error.name=='ValidationError') {
-	  					this.validationError=error;
-
-	  						console.log('Validation Error occured');
-						}else{
-							console.log('Validation passed');
+	  					if (err) {
+		  					if(err.status==422) {
+		  						console.log('While inserting validation Error occured');
+		  						this.validationError=err._body;
+		  						this.showMessage('error','err010','');
+							}else{
+								this.validationError=null;
+								this.showMessage('error','err006',err);
+							}
 						}
+
 					}
+				}else{
+					this.showMessage('error','err006',err);
 				}
 
+				this.processing=true;
 			 	//this.validationError=err._body;
 			 	console.log("Error Response :"+err);  
-			 	console.log("Error of qualifications : "+err._body.errors);
+			 	console.log("Error of subjectcode : "+err._body.errors);
 			 });	
+
 		}
 	}
+
+
+	showMessage(msgType,msgCode,msg){
+		console.log('showing message');
+		this.showMsg=true;
+		if(msgType=='processing'){
+			this.msgIcon=null;
+	       	this.processing=true;
+		}
+		if(msgType=='success'){
+			this.msgIcon='check_circle';
+			this.processing=false;
+		}
+		if(msgType=='error'){
+			this.msgIcon='report';
+			this.processing=false;
+		}
+		if(msgType=='warning'){
+			this.msgIcon='report';
+			this.processing=false;
+		}
+		this.msgCode=msgCode;
+		// var tmpMsg=msgDetails;
+		// console.log("Length : " + (msgDetails+'').trim().length);
+		console.log("msgType : " + msgType);
+		console.log("msgCode : " + msgCode);
+		console.log("msgDetails : " + msg);
+
+		if((msg+'').trim().length <= 0){
+			this.msgDetails=null;	
+		}else{
+			this.msgDetails=msg;	
+		}
+		
+	}
+	clearMessage(){
+		this.showMsg=false;
+		this.processing=false;
+		this.msgDetails=null;
+		this.msgCode=null;
+	}
+
 
 }

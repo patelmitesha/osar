@@ -15,13 +15,11 @@
 			</mat-card-header>
 			<mat-card-content>
 
-		<input type="hidden" name="id" />
+		
 		<input type="hidden" name="courseconfigid" formControlName="courseconfigid" />
-
 
 		  <!-- V discipline starts here V -->
           <div class="row" [hidden]="!courseconfigs.showcourse">
-            courses : {{coursesdata.courses}}
             <mat-form-field>
               <mat-select required  matInput name="course" formControlName="course" placeholder="{{ 'course' | translate }}" (ngModelChange)="changeSubjects($event)" >
 
@@ -64,15 +62,22 @@
 	  <!-- V Month/year of passing starts here V -->
           <div class="row" [hidden]="!courseconfigs.showyearofpassing">
             <mat-form-field>
-              <input matInput name="yearofpassing" formControlName="yearofpassing" placeholder="{{ 'year' | translate }}" >
+              <input required matInput name="yearofpassing" formControlName="yearofpassing" placeholder="{{ 'year' | translate }}" >
+
+              <mat-error *ngIf="!qualificationForm.get('yearofpassing').valid && qualificationForm.get('yearofpassing').errors.required">You must enter Year of Passing.</mat-error>
+                  <mat-error *ngIf="!qualificationForm.get('yearofpassing').valid && qualificationForm.get('yearofpassing').errors.pattern">
+                    {{'err0014' | translate}}
+                </mat-error>
+                <mat-error *ngIf="!qualificationForm.get('yearofpassing').valid && qualificationForm.get('yearofpassing').errors.maxlength">
+                  {{'err008' | translate:{maxlength:qualificationForm.get('yearofpassing').errors.maxlength.requiredLength} }}
+                  </mat-error>
             </mat-form-field>
 
                   <mat-error *ngIf="validationError">
                     <div *ngIf="validationError.errors.yearofpassing">{{validationError.errors.yearofpassing.message}}
                     </div>
                   </mat-error>
-                  <mat-error *ngIf="!qualificationForm.get('yearofpassing').valid && qualificationForm.get('yearofpassing').touched">You must enter Year of Passing.</mat-error>
-            
+                  
           <!-- V Month/year of passing ends here V -->
           </div>
 
@@ -80,7 +85,7 @@
 		 <!-- V University / Board starts here V -->
           <div class="row" [hidden]="!courseconfigs.showuniversity">
             <mat-form-field>
-              <input matInput name="universityboard" formControlName="universityboard" placeholder="{{ 'university' | translate }} / {{ 'board' | translate }}" 
+              <input required matInput name="universityboard" formControlName="universityboard" placeholder="{{ 'university' | translate }} / {{ 'board' | translate }}" 
               [matAutocomplete]="reactiveUniversity" >
               <mat-autocomplete #reactiveUniversity="matAutocomplete" >
                 <mat-option *ngFor="let university of reactiveUniversities | async" [value]="university.universityname">
@@ -88,12 +93,14 @@
                 </mat-option>
 
               </mat-autocomplete>
+              <mat-error *ngIf="!qualificationForm.get('universityboard').valid && qualificationForm.get('universityboard').touched">You must enter University / Board.</mat-error>
+                        
             </mat-form-field>
              <mat-error *ngIf="validationError">
                     <div *ngIf="validationError.errors.universityboard">{{validationError.errors.universityboard.message}}
                     </div>
                   </mat-error>
-                  <mat-error *ngIf="!qualificationForm.get('universityboard').valid && qualificationForm.get('universityboard').touched">You must enter University / Board.</mat-error>
+                  
             
           <!-- V University / Board ends here V -->
           </div>
@@ -107,12 +114,13 @@
                   <span >{{state.statename}}</span>
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="!qualificationForm.get('boardstate').valid && qualificationForm.get('boardstate').touched">You must enter State.</mat-error>
             </mat-form-field>
              <mat-error *ngIf="validationError">
                     <div *ngIf="validationError.errors.boardstate">{{validationError.errors.boardstate.message}}
                     </div>
                   </mat-error>
-                  <mat-error *ngIf="!qualificationForm.get('boardstate').valid && qualificationForm.get('boardstate').touched">You must enter State.</mat-error>
+                  
             
           <!-- V University / Board ends here V -->
           </div>
@@ -163,13 +171,20 @@
           <div class="row" [hidden]="!courseconfigs.showpercentage" [hidden]="qualificationForm.get('resultawaited').value==true">
             <mat-form-field>
               <input matInput name="aggregate" formControlName="aggregate" placeholder="Aggregate" >
-              
+              <mat-error *ngIf="!qualificationForm.get('aggregate').valid && qualificationForm.get('aggregate').touched">You must enter Percentage.</mat-error>
+
+              <mat-error *ngIf="!qualificationForm.get('aggregate').valid && qualificationForm.get('aggregate').errors.pattern">
+                {{'err0014' | translate}}
+            </mat-error>
+            <mat-error *ngIf="!qualificationForm.get('aggregate').valid && qualificationForm.get('aggregate').errors.maxlength">
+              {{'err008' | translate:{maxlength:qualificationForm.get('aggregate').errors.maxlength.requiredLength} }}
+              </mat-error>
             </mat-form-field>
              <mat-error *ngIf="validationError">
                     <div *ngIf="validationError.errors.aggregate">{{validationError.errors.aggregate.message}}
                     </div>
                   </mat-error>
-                  <mat-error *ngIf="!qualificationForm.get('aggregate').valid && qualificationForm.get('aggregate').touched">You must enter Percentage.</mat-error>
+                  
 
           <!-- V Month/year of passing ends here V -->
           </div>
@@ -200,12 +215,19 @@
                   <span>PASS</span>
                 </mat-option>
               </mat-autocomplete>
+              <mat-error *ngIf="!qualificationForm.get('examclass').valid && qualificationForm.get('examclass').errors.pattern">
+                {{'err009' | translate}}
+            </mat-error>
+            <mat-error *ngIf="!qualificationForm.get('examclass').valid && qualificationForm.get('examclass').errors.maxlength">
+              {{'err008' | translate:{maxlength:qualificationForm.get('examclass').errors.maxlength.requiredLength} }}
+              </mat-error>
+              <mat-error *ngIf="!qualificationForm.get('examclass').valid && qualificationForm.get('examclass').touched">You must enter Class.</mat-error>
             </mat-form-field>
              <mat-error *ngIf="validationError">
                     <div *ngIf="validationError.errors.examclass">{{validationError.errors.examclass.message}}
                     </div>
                   </mat-error>
-                  <mat-error *ngIf="!qualificationForm.get('examclass').valid && qualificationForm.get('examclass').touched">You must enter Class.</mat-error>
+                  
             
           <!-- V University / Board ends here V -->
           </div>
@@ -226,25 +248,81 @@
                 <div [formGroupName]="i">
                   Semester / Year {{i+1}}
                 <mat-form-field>
-                  <input matInput formControlName="semester" placeholder="semester" >                
+                  <input matInput formControlName="semester" placeholder="semester"  >     
+                  
                 </mat-form-field>
                 <mat-form-field>
                   <input matInput formControlName="marks" placeholder="Marks" >                
                 </mat-form-field>
                 <mat-form-field>
-                  <input matInput formControlName="grade" placeholder="Grade" >                
+                  <input matInput formControlName="grade" placeholder="Grade" >  
+                              
                 </mat-form-field>
+                
                 </div>
                 
               </div>
-               
+              <mat-error *ngIf="qualificationForm.controls.semesterwisemarks.hasError('semErr')">To date must be before From date.</mat-error>   
             </div>
+
             
             
           <!-- V Semester wise marks ends here V -->
           </div>
 
+<!-- Add Semesterwise Marks Starts-->
+<div style="padding: 20px; " >
+  <div style="padding-top: 10px; font-size: 20px; font-weight: bold;">
+    <div class="container" style="border-bottom: 1px; border-bottom-style: solid; border-bottom-color: lightgray; padding-bottom: 5px">
+      <div fxFlex fxFlex.xs="70" fxFlex.sm="70" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70">
+        {{ 'semesterwisemarks' | translate }}
+      </div>
+      
+      <div style='text-align: right;'  fxFlex fxFlex.xs="30" fxFlex.sm="30" fxFlex.md="30" fxFlex.lg="30"  fxFlex.xl="30">
+        <div [hidden]="application.islocked" >
+          <a mat-button color="primary" style="border:thin; border-style: solid;" [routerLink]="['/layout/semesterwisemarks',application._id,qualificationid]" ><mat-icon>add</mat-icon> {{ 'add' | translate }} </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <table>
+
+  <div *ngFor="let semesterwisemark of application.semesterwisemarks">
+      <tr >
+        <td style="padding-left: 10px" colspan="2">
+          <mat-chip-list>
+            <mat-chip>{{semesterwisemark.fromdate | date:'dd MMMM, yyyy'}}</mat-chip>
+            <span style="margin-top: 2px;margin-bottom: 2px; font-weight: bold; padding-left: 20px">{{semesterwisemark.postheld}}</span>
+          </mat-chip-list>
+          
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 50px">	
+          &nbsp;
+        </td>
+        <td style="border-left: solid; border-color: gray; padding-left: 10px; padding-top: 10px; padding-bottom: 10px ">		
+            
+        {{semesterwisemark.semester}}
+        <br />   Marks : <i
+          class="fa fa-rupee fa-fw"></i>{{semesterwisemark.marks}}<br />
+        Grade : {{semesterwisemark.grade}} <br>
+        <span class="pull-right text-muted small">
+          <div [hidden]="application.islocked" >
+              <a mat-button color="accent"  style="border:thin; border-style: solid;" 
+              [routerLink]="['/layout/semesterwisemarks',application._id, qualification._id,semesterwisemarks._id ]"
+              ><mat-icon>mode_edit</mat-icon>{{ 'edit' | translate }}</a> 
+              <button mat-button color="accent" style="border:thin; border-style: solid;" (click)="deleteexperience(application._id,experience._id)"><mat-icon>delete</mat-icon> {{ 'delete' | translate }}</button>
+          </div>
+        </span>
+        </td>
+      </tr>
+
+    <!-- / forEach -->
+    </div>
+  </table>
+</div>
 
 
 			</mat-card-content>
@@ -268,6 +346,24 @@
 
 <div class="container">
 	<div fxFlex="100">
+    <div [hidden]="!showMsg">
+    <mat-card  color="accent" style="margin: 10px">
+    <mat-card-content>
+        <div class="row">
+          <div fxFlex="5" [hidden]="!processing" ><mat-progress-spinner mode="indeterminate" color="accent" diameter="32"></mat-progress-spinner></div>
+          <div fxFlex="5" [hidden]="!msgIcon"><mat-icon style="font-size: 24px">{{msgIcon}}</mat-icon></div>
+          
+          <div fxFlex="95"  style="margin-top: 7px">{{ msgCode | translate }} 
+            <!-- <div [hidden]="!msgDetails"> -->
+              : {{msgDetails}}  
+            <!-- </div> -->
+            
+          </div>
+        </div>
+    </mat-card-content>
+  </mat-card>
+  </div>
+
   <mat-card>
     <mat-card-content>
               <div>

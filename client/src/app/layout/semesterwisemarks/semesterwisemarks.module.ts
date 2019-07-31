@@ -1,30 +1,27 @@
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Http, HttpModule } from '@angular/http';
+import { SemesterwisemarksComponent} from './semesterwisemarks.component';
+import { SemesterwisemarksRoutingModule } from './semesterwisemarks-routing.module';
 import { MaterialModule } from '../../material.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExperienceinfoRoutingModule } from './experienceinfo-routing.module';
-import { ExperienceinfoComponent } from './experienceinfo.component';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { ApplicationService } from  '../../services/application.service';
 
 @NgModule({
   imports: [
-    
-   FormsModule,
     CommonModule,
+    SemesterwisemarksRoutingModule,
     MaterialModule,
-    HttpModule,
-    ReactiveFormsModule,
     TranslateModule,
-    ExperienceinfoRoutingModule
+    FormsModule,
+    ReactiveFormsModule
   ],
-  declarations: [ExperienceinfoComponent],
+  declarations: [SemesterwisemarksComponent],
   providers:[ApplicationService],
-    exports: [
+  exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule
   ]
 })
-export class ExperienceinfoModule { }
+export class SemesterwisemarksModule { }

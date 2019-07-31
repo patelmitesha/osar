@@ -52,7 +52,7 @@ export class CourseconfigService {
       let opts = new RequestOptions({headers:header, params: {_id:applicationid}});
       opts.headers=header;
 
-      this.http.get('/privateapi/courseconfigs/remaining',opts)
+      this.http.get('/api/privateapi/courseconfigs/remaining',opts)
         .map(res => res.json())
         .subscribe(res => {
           resolve(res);

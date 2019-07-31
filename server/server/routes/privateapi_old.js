@@ -9,9 +9,9 @@ const router = express.Router();
 //Set up mongoose connection
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://localhost:27017/osar';
-mongoose.connect(mongoDB, {
-  useNewUrlParser: true
-});
+/*mongoose.connect(mongoDB, {
+  useMongoClient: true
+});*/
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -23,7 +23,7 @@ var ctrlAuth = require('../controllers/authentication');
 var ctrlAdvertisements = require('../controllers/advertisement');
 var ctrlApplication = require('../controllers/application');
 var ctrlCourseconfig = require('../controllers/courseconfig');
-
+var ctrlPaymentgateway = require('../controllers/paymentgateway');
 // ---------------------------------------------------------
 // route middleware to authenticate and check token
 // ---------------------------------------------------------
@@ -90,12 +90,8 @@ router.put('/qualification',ctrlApplication.updatequalification);
 
 router.delete('/qualification',ctrlApplication.deletequalification);
 
-router.post('/semesterwisemarks',ctrlApplication.savesemesterwisemarks);
-
-router.put('/semesterwisemarks',ctrlApplication.updatesemesterwisemarks);
-
-router.delete('/semesterwisemarks',ctrlApplication.deletesemesterwisemarks);
-
 router.get('/courseconfigs/remaining',ctrlCourseconfig.searchremainingcourses);
+
+router.post('/paymentrequest',ctrlPaymentgateway.paymentrequest);
 
 module.exports = router;

@@ -8,8 +8,10 @@ const routes: Routes = [
     children: [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'personalinfo/:id', loadChildren: './personalinfo/personalinfo.module#PersonalinfoModule' },
-            { path: 'personalinfo', loadChildren: './personalinfo/personalinfo.module#PersonalinfoModule' },
+            { path: 'personalinfo/:advertisementno/:postcode/:subjectcode', loadChildren: './personalinfo/personalinfo.module#PersonalinfoModule' },
             { path: 'qualificationinfo/:id/:courseconfigid', loadChildren: './qualificationinfo/qualificationinfo.module#QualificationinfoModule' },
+            { path: 'semesterwisemarks/:id/:qualificationid', loadChildren: './semesterwisemarks/semesterwisemarks.module#SemesterwisemarksModule' },
+            { path: 'semesterwisemarks/:id/:qualificationid/:semesterwisemarksid', loadChildren: './semesterwisemarks/semesterwisemarks.module#SemesterwisemarksModule' },
             { path: 'editqualificationinfo/:id/:qualificationid', loadChildren: './qualificationinfo/qualificationinfo.module#QualificationinfoModule' },
             { path: 'experienceinfo/:id', loadChildren: './experienceinfo/experienceinfo.module#ExperienceinfoModule' },
             { path: 'experienceinfo/:id/:experienceid', loadChildren: './experienceinfo/experienceinfo.module#ExperienceinfoModule' },

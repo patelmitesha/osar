@@ -53,7 +53,11 @@ export class PreviewComponent implements OnInit {
 
 
 	getapplication(applicationid){
+    console.log("ApplicationID in get application : "+applicationid);
 	this.applicationService.getapplication(applicationid).then((res)=>{
+      
+      console.log("Found");
+
 	    this.application=res;
       console.log('ApplicationID from service :'+this.application._id);
       console.log('calling getnotfilledcourseconfigs');

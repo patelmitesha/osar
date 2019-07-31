@@ -17,7 +17,7 @@ export class UploadComponent implements OnInit {
 	uploadForm: FormGroup; 
 	UserImageFile:File;
 
-	@ViewChild('UserImage',{static:false}) User_Image;
+	@ViewChild('UserImage',{static: false}) User_Image;
   constructor(
   	private router: ActivatedRoute, 
   	private uploadService: UploadService,

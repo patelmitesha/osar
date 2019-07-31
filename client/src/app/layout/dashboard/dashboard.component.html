@@ -54,7 +54,7 @@
                    <a mat-raised-button [routerLink]="['/layout/preview',status._id]" > Edit <mat-icon>edit</mat-icon></a>
                   </span>
                   <span *ngIf="(status.advertisementno ==  advertisement.advertisementno) && (status.postcode == advtdetails.postcode) && (status.subjectcode == advtdetails.subjectcode) && (status.status == 'new')">
-                   <a mat-raised-button [routerLink]="['/layout/personalinfo']" > Apply <mat-icon>touch_app</mat-icon> </a>
+                   <a mat-raised-button [routerLink]="['/layout/personalinfo',advertisement.advertisementno,advtdetails.postcode,advtdetails.subjectcode]" > Apply <mat-icon>touch_app</mat-icon> </a>
                   </span>
                 </span>
                 

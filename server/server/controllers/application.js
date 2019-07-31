@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var ApplicationHistory = mongoose.model('ApplicationHistory');
 var Applications = mongoose.model('Applications');
 var ApplicationValidator = require('../validators/applicationvalidator.js');
+var QualificationValidator = require('../validators/qualificationvalidator.js');
+var ExperienceValidator = require('../validators/experiencevalidator.js');
 
 module.exports.searchapplications = function(req, res) {
 
@@ -248,16 +250,15 @@ module.exports.deletequalification = function(req, res) {
 
 module.exports.updatequalification = function(req, res) {
 
-var application=new Applications();
 console.log("req.decoded : "+req.decoded.email);
-console.log("Experience ID : "+req.body._id);
+console.log("Qualification ID : "+req.body._id);
 console.log("Application ID : "+req.query._id)
-experienceid:String;
-experienceid=req.body._id;
+qualification:String;
+qualificationid=req.body._id;
+/*
 
-
-  console.log({"_id":req.query._id,"email":req.decoded.email,  "experiences._id": this.qualificationid});
-  Applications.findOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": this.qualificationid},function(err,application) {
+  console.log({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": this.qualificationid});
+  Applications.findOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": req.body._id},function(err,application) {
     if(err){
       console.log("error occured");
       res.status(500).send(err);
@@ -270,11 +271,7 @@ experienceid=req.body._id;
       console.log(application);
     }
   });
-/*
-  var tempExperience={};
-  tempExperience=req.body;
-  delete tempExperience._id;
-  */
+
   Applications.updateOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": this.qualificationid},
     {$set : {"qualifications.$": req.body}},function(err,doc){
       if(err){
@@ -285,10 +282,259 @@ experienceid=req.body._id;
         res.status(200);
         res.json({success:'OK'});
       }
+  });*/
+
+
+/* here */
+   console.log('Inside update qualification');
+
+    qualification=req.body;
+    console.log('Trying to validate qualification');
+    console.log(qualification);
+    QualificationValidator.validateQualification(qualification).then(result =>{
+    this.qualification=result;
+    console.log('No error');
+
+    //  retriv old object for saving in history starts here
+    var appnTobeSavedInHistroy = null;
+    console.log("_id : "+application._id);
+    console.log("email : "+req.decoded.email);
+    Applications.findOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": req.body._id},function(err,applicationFound) {
+      if(err){
+        console.log("Error : " +err);  
+         res.status(500).json(err);
+      }else{
+        if(!applicationFound){
+          res.status(400);
+          res.json({errors:[{code:"err003",message: "Application not found"}]});
+        }else{
+          appnTobeSavedInHistroy = applicationFound;
+          //updaing application starts here
+          Applications.updateOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": this.qualificationid},
+    {$set : {"qualifications.$": req.body}},function(err,doc){
+              if(err){
+                if(err.name == "ValidationError"){
+                  res.status(422);
+                  res.json(err);
+                }else{
+                  res.status(500).send(err);   
+                }
+              }else{
+
+                // save old application in history
+                var appHistory=new ApplicationHistory();
+
+                appHistory.applicationno = applicationFound.applicationno ,
+                appHistory.updatedon = new Date() ,
+                appHistory.operationtype = 'UPDATE' ,
+                appHistory.application = appnTobeSavedInHistroy;
+                ApplicationHistory(appHistory).save(function(err, savedApplication) {
+                  if(err){
+                    console.log('Error while saving');
+                    console.log(err);
+                    if(err.name == "ValidationError"){
+                      res.status(422).send(err);
+                    }else{
+                      //internal server (mongodb) error
+                      res.status(500).send(err);   
+                    }
+                  }else{
+                    console.log('Success on saving');
+                    console.log(savedApplication);
+                    res.status(200);
+                    res.json(
+                      {
+                        success:'OK'
+                      });
+                  }
+
+                });
+              }
+
+            });
+        }
+      }
+    }).catch(error => {
+      console.log('Error caught');
+      console.log(error.stack);
+      res.status(422);
+      res.json(error.message);
+    });
+
   });
 
+};
+
+
+module.exports.savesemesterwisemarks = function(req, res) {
+  console.log('inside save semesterwisemarks');
+  console.log("QualificationID : " + req.query.qualificationid);
+  Applications.findOneAndUpdate({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": req.query.qualificationid},
+  {$push : {"qualifications.$.semesterwisemarks": req.body}},function(err,doc){
+    if(err){
+      console.log(err);
+      res.status(500).send(err);
+    }else{
+      console.log(doc);
+      res.status(200);
+      res.json({success:'OK'});
+    }
+  });
+};
+  
+
+
+
+
+module.exports.deletesemesterwisemarks = function(req, res) {
+  console.log('inside delete semesterwisemarks');
+
+  var application=new Applications();
+  console.log("req.query.id : "+req.query._id);
+
+  Applications.findOne(({"_id":req.query._id , "email":req.decoded.email}),function(err,application) {
+    if(err){
+      console.log("Error : " +err);  
+       res.status(500).json(err);
+    }else{
+    //res.status(200);
+    this.application=application;
+    console.log('found');
+    console.log(this.application);
+
+    this.application.qualifications.id(req.query.qualificationid).remove();
+      Applications.update(({"_id":req.query._id  , "email":req.decoded.email}),this.application,function(err) {
+        if(err){
+            console.log('error occured');
+           res.status(500).send(err);
+        }else{
+          console.log('experience upate success');
+          res.status(200);
+          res.json({success:'OK'});
+        }
+      });
+    }
+  });
+};
+
+
+module.exports.updatesemesterwisemarks = function(req, res) {
+
+console.log("req.decoded : "+req.decoded.email);
+console.log("Qualification ID : "+req.body._id);
+console.log("Application ID : "+req.query._id)
+qualification:String;
+qualificationid=req.body._id;
+/*
+
+  console.log({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": this.qualificationid});
+  Applications.findOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": req.body._id},function(err,application) {
+    if(err){
+      console.log("error occured");
+      res.status(500).send(err);
+    }else{
+      if(!application){
+        res.status(400);
+        res.json({errors:[{code:"err003",message: "Application not found"}]});
+      }
+      console.log("Application found");
+      console.log(application);
+    }
+  });
+
+  Applications.updateOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": this.qualificationid},
+    {$set : {"qualifications.$": req.body}},function(err,doc){
+      if(err){
+        console.log(err);
+        res.status(500).send(err);
+      }else{
+        console.log(doc);
+        res.status(200);
+        res.json({success:'OK'});
+      }
+  });*/
+
+
+/* here */
+   console.log('Inside update semesterwisemarks');
+
+    qualification=req.body;
+    console.log('Trying to validate semesterwisemarks');
+    console.log(qualification);
+    QualificationValidator.validateQualification(qualification).then(result =>{
+    this.qualification=result;
+    console.log('No error');
+
+    //  retriv old object for saving in history starts here
+    var appnTobeSavedInHistroy = null;
+    console.log("_id : "+application._id);
+    console.log("email : "+req.decoded.email);
+    Applications.findOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": req.body._id},function(err,applicationFound) {
+      if(err){
+        console.log("Error : " +err);  
+         res.status(500).json(err);
+      }else{
+        if(!applicationFound){
+          res.status(400);
+          res.json({errors:[{code:"err003",message: "Application not found"}]});
+        }else{
+          appnTobeSavedInHistroy = applicationFound;
+          //updaing application starts here
+          Applications.updateOne({"_id":req.query._id,"email":req.decoded.email,  "qualifications._id": this.qualificationid},
+    {$set : {"qualifications.$": req.body}},function(err,doc){
+              if(err){
+                if(err.name == "ValidationError"){
+                  res.status(422);
+                  res.json(err);
+                }else{
+                  res.status(500).send(err);   
+                }
+              }else{
+
+                // save old application in history
+                var appHistory=new ApplicationHistory();
+
+                appHistory.applicationno = applicationFound.applicationno ,
+                appHistory.updatedon = new Date() ,
+                appHistory.operationtype = 'UPDATE' ,
+                appHistory.application = appnTobeSavedInHistroy;
+                ApplicationHistory(appHistory).save(function(err, savedApplication) {
+                  if(err){
+                    console.log('Error while saving');
+                    console.log(err);
+                    if(err.name == "ValidationError"){
+                      res.status(422).send(err);
+                    }else{
+                      //internal server (mongodb) error
+                      res.status(500).send(err);   
+                    }
+                  }else{
+                    console.log('Success on saving');
+                    console.log(savedApplication);
+                    res.status(200);
+                    res.json(
+                      {
+                        success:'OK'
+                      });
+                  }
+
+                });
+              }
+
+            });
+        }
+      }
+    }).catch(error => {
+      console.log('Error caught');
+      console.log(error.stack);
+      res.status(422);
+      res.json(error.message);
+    });
+
+  });
 
 };
+
 
 
 module.exports.saveexperience = function(req, res) {
@@ -381,9 +627,9 @@ module.exports.updateexperience = function(req, res) {
   experienceid=req.body._id;
 
   console.log("From Date : "+ req.body.fromdate);
-  console.log("From Date New : "+ req.body.fromdate.toLocaleTimeString());
+//  console.log("From Date New : "+ req.body.fromdate.toLocaleTimeString());
 
-
+/*
   console.log({"_id":req.query._id,"email":req.decoded.email,  "experiences._id": this.experienceid});
   Applications.findOne({"_id":req.query._id,"email":req.decoded.email,  "experiences._id": this.experienceid},function(err,application) {
     if(err){
@@ -410,7 +656,86 @@ module.exports.updateexperience = function(req, res) {
         res.status(200);
         res.json({success:'OK'});
       }
+  });*/
+
+  /* here */
+   console.log('Inside update experience');
+
+    experience=req.body;
+    console.log('Trying to validate experience');
+    console.log(experience);
+    ExperienceValidator.validateExperience(experience).then(result =>{
+    this.experience=result;
+    console.log('No error');
+
+    //  retriv old object for saving in history starts here
+    var appnTobeSavedInHistroy = null;
+    console.log("_id : "+application._id);
+    console.log("email : "+req.decoded.email);
+    Applications.findOne({"_id":req.query._id,"email":req.decoded.email,  "experiences._id": this.experienceid},function(err,applicationFound) {
+      if(err){
+        console.log("Error : " +err);  
+         res.status(500).json(err);
+      }else{
+        if(!applicationFound){
+          res.status(400);
+          res.json({errors:[{code:"err003",message: "Application not found"}]});
+        }else{
+          appnTobeSavedInHistroy = applicationFound;
+          //updaing application starts here
+          Applications.updateOne({"_id":req.query._id,"email":req.decoded.email,  "experiences._id": this.experienceid},
+    {$set : {"experiences.$": req.body}},function(err,doc){
+              if(err){
+                if(err.name == "ValidationError"){
+                  res.status(422);
+                  res.json(err);
+                }else{
+                  res.status(500).send(err);   
+                }
+              }else{
+
+                // save old application in history
+                var appHistory=new ApplicationHistory();
+
+                appHistory.applicationno = applicationFound.applicationno ,
+                appHistory.updatedon = new Date() ,
+                appHistory.operationtype = 'UPDATE' ,
+                appHistory.application = appnTobeSavedInHistroy;
+                ApplicationHistory(appHistory).save(function(err, savedApplication) {
+                  if(err){
+                    console.log('Error while saving');
+                    console.log(err);
+                    if(err.name == "ValidationError"){
+                      res.status(422).send(err);
+                    }else{
+                      //internal server (mongodb) error
+                      res.status(500).send(err);   
+                    }
+                  }else{
+                    console.log('Success on saving');
+                    console.log(savedApplication);
+                    res.status(200);
+                    res.json(
+                      {
+                        success:'OK'
+                      });
+                  }
+
+                });
+              }
+
+            });
+        }
+      }
+    }).catch(error => {
+      console.log('Error caught');
+      console.log(error.stack);
+      res.status(422);
+      res.json(error.message);
+    });
+
   });
+
 };
 
 

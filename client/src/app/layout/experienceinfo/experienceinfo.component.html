@@ -1,179 +1,295 @@
-<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row"  style="background-color: #ededed" >
+<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row"
+	fxLayout.xl="row" style="background-color: #ededed">
 	<div fxFlex="100">
 		<form [formGroup]="experienceForm" (ngSubmit)="addExperience(experienceForm)" novalidate method='POST'>
-		
-		<input type="hidden" name="_id" formControlName="_id"  />
 
-		<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row" fxLayout.lg="row" fxLayout.xl="row" >
-			<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="70" fxFlex.lg="70">
-				<mat-card>
-					<mat-card-header>
-						<mat-card-title>
-							<h3> <mat-icon mat-list-icon>mode_edit</mat-icon> {{ 'experience' | translate }}  </h3>
-						</mat-card-title>
-					</mat-card-header>
-					<mat-card-content>
+			<input type="hidden" name="_id" formControlName="_id" />
 
-					<!-- V Post Held starts here V -->
-					<div class="row">
-						<mat-form-field>
-							<input matInput name="postheld" formControlName="postheld" placeholder="{{ 'postheld' | translate }}" >
-						</mat-form-field>
+			<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row"
+				fxLayout.lg="row" fxLayout.xl="row">
+				<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="70" fxFlex.lg="70">
+					<mat-card>
+						<mat-card-header>
+							<mat-card-title>
+								<h3>
+									<mat-icon mat-list-icon>mode_edit</mat-icon> {{ 'experience' | translate }}
+								</h3>
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
 
-						<mat-error *ngIf="validationError">
-							<div *ngIf="validationError.errors.postheld">{{validationError.errors.postheld.message}} </div>
-						</mat-error>
-						<mat-error *ngIf="!experienceForm.get('postheld').valid && experienceForm.get('postheld').touched">
-							You must enter Year Post Held.
-						</mat-error>
-					<!-- V Post Held ends here V -->
-					</div>
+							<!-- V Post Held starts here V -->
+							<div class="row">
+								<mat-form-field>
+									<input matInput name="postheld" formControlName="postheld"
+										placeholder="{{ 'postheld' | translate }}">
+									<mat-error
+										*ngIf="!experienceForm.get('postheld').valid && experienceForm.get('postheld').touched">
+										You must enter Year Post Held.
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('postheld').valid && experienceForm.get('postheld').errors.maxlength">
+										{{'err008' | translate:{maxlength:experienceForm.get('postheld').errors.maxlength.requiredLength} }}
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('postheld').valid && experienceForm.get('postheld').errors.pattern">
+										{{'err009' | translate}}
+									</mat-error>
+								</mat-form-field>
 
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.postheld">
+										{{validationError.errors.postheld.message}} </div>
+								</mat-error>
 
-
-
-					<!-- V Post Held starts here V -->
-					From Date : {{experienceForm.get('fromdate').value}}
-					<div class="row">
-						<mat-form-field>
-							<input matInput [matDatepicker]="fromDTPicker" name="fromdate" formControlName="fromdate" placeholder="{{ 'fromdate' | translate }}">    
-                            <mat-datepicker-toggle matSuffix [for]="fromDTPicker"></mat-datepicker-toggle>    
-                            <mat-datepicker  touchUi="touch" startView="year" #fromDTPicker></mat-datepicker>    
-						</mat-form-field>
-
-						<mat-error *ngIf="validationError">
-							<div *ngIf="validationError.errors.fromdate">{{validationError.errors.fromdate.message}} </div>
-						</mat-error>
-						<mat-error *ngIf="!experienceForm.get('fromdate').valid && experienceForm.get('fromdate').touched">
-							You must enter From Date.
-						</mat-error>
-					<!-- V Post Held ends here V -->
-					</div>
-
-
-
-					<!-- V To Date starts here V -->
-					From Date : {{experienceForm.get('todate').value}}
-					<div class="row">
-						<mat-form-field>
-						<input matInput [matDatepicker]="toDTPicker" name="todate" formControlName="todate" placeholder="{{ 'todate' | translate }}">    
-                            <mat-datepicker-toggle matSuffix [for]="toDTPicker"></mat-datepicker-toggle>    
-                            <mat-datepicker touchUi="touch" startView="year" currentView="year" #toDTPicker></mat-datepicker>   
-						</mat-form-field>
-						<mat-error *ngIf="validationError">
-							<div *ngIf="validationError.errors.todate">{{validationError.errors.todate.message}} </div>
-						</mat-error>
-						<mat-error *ngIf="!experienceForm.get('todate').valid && experienceForm.get('todate').touched">
-							You must enter From Date.
-						</mat-error>
-					<!-- V To Date ends here V -->
-					</div>
-
-
-
-					<!-- V Duration starts here V -->
-					<div class="row">
-						<mat-form-field>
-							<input matInput name="months" formControlName="months" placeholder="{{ 'durationinmonths' | translate }}" >
-						</mat-form-field>
-
-						<mat-error *ngIf="validationError">
-							<div *ngIf="validationError.errors.months">{{validationError.errors.months.message}} </div>
-						</mat-error>
-						<mat-error *ngIf="!experienceForm.get('months').valid && experienceForm.get('months').touched">
-							You must enter Duration in months.
-						</mat-error>
-					<!-- V Duration ends here V -->
-					</div>
-
-
-					<!-- V Salary starts here V -->
-					<div class="row">
-						<mat-form-field>
-							<input matInput name="salarydrawn" formControlName="salarydrawn" placeholder="{{ 'salarydrawn' | translate }}" >
-						</mat-form-field>
-
-						<mat-error *ngIf="validationError">
-							<div *ngIf="validationError.errors.salarydrawn">{{validationError.errors.salarydrawn.message}} </div>
-						</mat-error>
-						<mat-error *ngIf="!experienceForm.get('salarydrawn').valid && experienceForm.get('salarydrawn').touched">
-							You must enter Salary Drawn.
-						</mat-error>
-					<!-- V Salary ends here V -->
-					</div>
-
-
-					<!-- V Name of organisation starts here V -->
-					<div class="row">
-						<mat-form-field>
-							<input matInput name="nameoforganization" formControlName="nameoforganization" placeholder="{{ 'nameoforganisation' | translate }}" >
-						</mat-form-field>
-
-						<mat-error *ngIf="validationError">
-							<div *ngIf="validationError.errors.nameoforganization">{{validationError.errors.nameoforganization.message}} </div>
-						</mat-error>
-						<mat-error *ngIf="!experienceForm.get('nameoforganization').valid && experienceForm.get('nameoforganization').touched">
-							You must enter Name of Organisation.
-						</mat-error>
-					<!-- V Name of organisation ends here V -->
-					</div>
-
-
-					<!-- V Salary starts here V -->
-					<div class="row">
-						<mat-form-field>
-							<input matInput name="natureofduty" formControlName="natureofduty" placeholder="{{ 'natureofduty' | translate }}" >
-						</mat-form-field>
-
-						<mat-error *ngIf="validationError">
-							<div *ngIf="validationError.errors.natureofduty">{{validationError.errors.natureofduty.message}} </div>
-						</mat-error>
-						<mat-error *ngIf="!experienceForm.get('natureofduty').valid && experienceForm.get('natureofduty').touched">
-							You must enter nature of duty.
-						</mat-error>
-					<!-- V Salary ends here V -->
-					</div>
+								<!-- V Post Held ends here V -->
+							</div>
 
 
 
 
-					</mat-card-content>
-				</mat-card>
+							<!-- V Post Held starts here V -->
+
+							<div class="row">
+								<mat-form-field>
+									<input matInput [matDatepicker]="fromDTPicker" name="fromdate" [min]="minFromDate"
+										[max]="maxFromDate" formControlName="fromdate"
+										placeholder="{{ 'fromdate' | translate }}">
+									<mat-datepicker-toggle matSuffix [for]="fromDTPicker"></mat-datepicker-toggle>
+									<mat-datepicker touchUi="touch" startView="year" #fromDTPicker></mat-datepicker>
+									<mat-error
+										*ngIf="!experienceForm.get('fromdate').valid && experienceForm.get('fromdate').touched">
+										You must enter From Date.
+									</mat-error>
+								</mat-form-field>
+
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.fromdate">
+										{{validationError.errors.fromdate.message}} </div>
+								</mat-error>
+
+								<!-- V Post Held ends here V -->
+							</div>
+
+
+
+							<!-- V To Date starts here V -->
+
+							<div class="row">
+								<mat-form-field>
+									<input matInput [matDatepicker]="toDTPicker" name="todate" [min]="minToDate"
+										[max]="maxToDate" formControlName="todate"
+										placeholder="{{ 'todate' | translate }}">
+									<mat-datepicker-toggle matSuffix [for]="toDTPicker"></mat-datepicker-toggle>
+									<mat-datepicker touchUi="touch" startView="year" currentView="year" #toDTPicker>
+									</mat-datepicker>
+									<mat-error 
+										*ngIf="!experienceForm.get('todate').valid && experienceForm.get('todate').touched">
+										You must enter From Date.
+									</mat-error>
+									
+								</mat-form-field>
+								<mat-error *ngIf="experienceForm.hasError('dateErr')">To date must be before From date.</mat-error>
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.todate">{{validationError.errors.todate.message}}
+									</div>
+								</mat-error>
+
+								<!-- V To Date ends here V -->
+							</div>
+
+
+
+							<!-- V Duration starts here V -->
+							<div class="row">
+								<mat-form-field>
+									<input matInput name="months" formControlName="months"
+										placeholder="{{ 'durationinmonths' | translate }}">
+									<mat-error
+										*ngIf="!experienceForm.get('months').valid && experienceForm.get('months').touched">
+										You must enter Duration in months.
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('months').valid && experienceForm.get('months').errors.min">
+										Please enter valid {{ 'durationinmonths' | translate }}.
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('months').valid && experienceForm.get('months').errors.maxlength">
+										{{'err008' | translate:{maxlength:experienceForm.get('months').errors.maxlength.requiredLength} }}
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('months').valid && experienceForm.get('months').errors.pattern">
+										{{'err0014' | translate}}
+									</mat-error>
+								</mat-form-field>
+
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.months">{{validationError.errors.months.message}}
+									</div>
+								</mat-error>
+
+								<!-- V Duration ends here V -->
+							</div>
+
+
+							<!-- V Salary starts here V -->
+							<div class="row">
+								<mat-form-field>
+									<input matInput min="20" name="salarydrawn" formControlName="salarydrawn"
+										placeholder="{{ 'salarydrawn' | translate }}">
+									<mat-error
+										*ngIf="!experienceForm.get('salarydrawn').valid && experienceForm.get('salarydrawn').touched">
+										You must enter Salary Drawn.
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('salarydrawn').valid && experienceForm.get('salarydrawn').errors.min">
+										Please enter valid Salary Drawn.
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('salarydrawn').valid && experienceForm.get('salarydrawn').errors.maxlength">
+										{{'err008' | translate:{maxlength:experienceForm.get('salarydrawn').errors.maxlength.requiredLength} }}
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('salarydrawn').valid && experienceForm.get('salarydrawn').errors.pattern">
+										{{'err0014' | translate}}
+									</mat-error>
+								</mat-form-field>
+
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.salarydrawn">
+										{{validationError.errors.salarydrawn.message}} </div>
+								</mat-error>
+
+								<!-- V Salary ends here V -->
+							</div>
+
+
+							<!-- V Name of organisation starts here V -->
+							<div class="row">
+								<mat-form-field>
+									<input matInput name="nameoforganization" formControlName="nameoforganization"
+										placeholder="{{ 'nameoforganisation' | translate }}">
+									<mat-error
+										*ngIf="!experienceForm.get('nameoforganization').valid && experienceForm.get('nameoforganization').touched">
+										You must enter Name of Organisation.
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('nameoforganization').valid && experienceForm.get('nameoforganization').errors.maxlength">
+										{{'err008' | translate:{maxlength:experienceForm.get('nameoforganization').errors.maxlength.requiredLength} }}
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('nameoforganization').valid && experienceForm.get('nameoforganization').errors.pattern">
+										{{'err009' | translate}}
+									</mat-error>
+								</mat-form-field>
+
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.nameoforganization">
+										{{validationError.errors.nameoforganization.message}} </div>
+								</mat-error>
+
+								<!-- V Name of organisation ends here V -->
+							</div>
+
+
+							<!-- V Salary starts here V -->
+							<div class="row">
+								<mat-form-field>
+									<input matInput name="natureofduty" formControlName="natureofduty"
+										placeholder="{{ 'natureofduty' | translate }}">
+									<mat-error
+										*ngIf="!experienceForm.get('natureofduty').valid && experienceForm.get('natureofduty').touched">
+										You must enter nature of duty.
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('natureofduty').valid && experienceForm.get('natureofduty').errors.maxlength">
+										{{'err008' | translate:{maxlength:experienceForm.get('natureofduty').errors.maxlength.requiredLength} }}
+									</mat-error>
+									<mat-error
+										*ngIf="!experienceForm.get('natureofduty').valid && experienceForm.get('natureofduty').errors.pattern">
+										{{'err009' | translate}}
+									</mat-error>
+								</mat-form-field>
+
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.natureofduty">
+										{{validationError.errors.natureofduty.message}} </div>
+								</mat-error>
+
+								<!-- V Salary ends here V -->
+							</div>
+
+
+
+
+						</mat-card-content>
+					</mat-card>
+				</div>
+				<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30" fxFlex.lg="30">
+					<mat-card>
+						<mat-card-header>
+							<mat-card-title>
+								<h3> Important Instructions <mat-icon>chat</mat-icon>
+								</h3>
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<mat-icon>mail</mat-icon> : ao_rr@sac.isro.gov.in <br />
+							<br />
+							<mat-icon>call</mat-icon> : 079-26913020 / 21
+						</mat-card-content>
+					</mat-card>
+				</div>
 			</div>
-			<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30" fxFlex.lg="30">
-				<mat-card>
-					<mat-card-header>
-						<mat-card-title>
-							<h3> Important Instructions <mat-icon>chat</mat-icon> </h3>
-						</mat-card-title>
-					</mat-card-header>
-					<mat-card-content>
-						<mat-icon>mail</mat-icon> : ao_rr@sac.isro.gov.in <br />
-				        <br />  <mat-icon >call</mat-icon> : 079-26913020 / 21
-					</mat-card-content>
-				</mat-card>
+
+
+
+			<div class="container">
+				<div fxFlex="100">
+					<div [hidden]="!showMsg">
+						<mat-card color="accent" style="margin: 10px">
+							<mat-card-content>
+								<div class="row">
+									<div fxFlex="5" [hidden]="!processing">
+										<mat-progress-spinner mode="indeterminate" color="accent" diameter="32">
+										</mat-progress-spinner>
+									</div>
+									<div fxFlex="5" [hidden]="!msgIcon">
+										<mat-icon style="font-size: 24px">{{msgIcon}}</mat-icon>
+									</div>
+
+									<div fxFlex="95" style="margin-top: 7px">{{ msgCode | translate }}
+										<!-- <div [hidden]="!msgDetails"> -->
+										: {{msgDetails}}
+										<!-- </div> -->
+
+									</div>
+								</div>
+							</mat-card-content>
+						</mat-card>
+					</div>
+					<mat-card>
+						<mat-card-content>
+							<div>
+								<div class="container" align="center">
+									<span class="{{nextButtonEnable==true}}">
+
+										<button mat-raised-button color="accent"
+											[routerLink]="['/layout/preview',this.id]">
+											<mat-icon>keyboard_arrow_left</mat-icon>{{ 'back' | translate }}
+										</button>
+									</span>
+									<button mat-raised-button color="primary" type="submit"
+										[disabled]="experienceForm.invalid">
+										<mat-icon>check</mat-icon>{{ 'save' | translate }}
+									</button>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</div>
 			</div>
-		</div>
 
-
-
-		<div class="container">
-			<div fxFlex="100">
-			  <mat-card>
-			    <mat-card-content>
-			              <div>
-			            <div class="container" align="center">
-			              <span class="{{nextButtonEnable==true}}">
-
-			                <button mat-raised-button color="accent" [routerLink]="['/layout/preview',this.id]">{{ 'back' | translate }}</button>
-			              </span>
-			              <button mat-raised-button color="primary" type="submit" [disabled]="experienceForm.invalid">{{ 'save' | translate }}</button>
-			            </div>
-			          </div>
-			        </mat-card-content>
-			  </mat-card>
-			</div>
-		</div>
 
 
 		</form>

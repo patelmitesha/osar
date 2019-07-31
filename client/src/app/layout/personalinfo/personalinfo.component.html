@@ -50,8 +50,12 @@
                   {{'err007' | translate }} 
                 </mat-error>
                 <mat-error *ngIf="!applicationForm.get('firstname').valid && applicationForm.get('firstname').errors.maxlength">
-                  {{'err008' | translate }}  {{applicationForm.get('firstname').errors.maxlength.requiredLength}} {{'err009' | translate }}  
+                  <!--<p translate [translateParams]="{maxlength: applicationForm.get('firstname').errors.maxlength.requiredLength}">err008</p>-->
+                    {{'err008' | translate:{maxlength:applicationForm.get('firstname').errors.maxlength.requiredLength} }}
                 </mat-error>
+                <mat-error *ngIf="!applicationForm.get('firstname').valid && applicationForm.get('firstname').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
 
               </mat-form-field>
               <mat-error *ngIf="validationError">
@@ -72,8 +76,11 @@
                 {{'err007' | translate }} 
               </mat-error>
               <mat-error *ngIf="!applicationForm.get('fatherhusbandname').valid && applicationForm.get('fatherhusbandname').errors.maxlength">
-                {{'err008' | translate }} {{applicationForm.get('fatherhusbandname').errors.maxlength.requiredLength}} {{'err009' | translate }}
-              </mat-error>
+                {{'err008' | translate:{maxlength:applicationForm.get('fatherhusbandname').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('fatherhusbandname').valid && applicationForm.get('fatherhusbandname').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
 
             </mat-form-field>
             <mat-error *ngIf="validationError">
@@ -140,12 +147,12 @@
           <div class="row">
             <!-- {{applicationForm.get('dateofbirth').value}} -->
           <mat-form-field>
-            <input matInput [matDatepicker]="toDTPicker" name="dateofbirth" formControlName="dateofbirth" placeholder="{{ 'birthdate' | translate }}">    
+            <input matInput [matDatepicker]="toDTPicker" name="dateofbirth" [min]="minDate" [max]="maxDate" formControlName="dateofbirth" placeholder="{{ 'birthdate' | translate }}">    
             <mat-datepicker-toggle matSuffix [for]="toDTPicker"></mat-datepicker-toggle>    
             <mat-datepicker #toDTPicker></mat-datepicker>   
           </mat-form-field> 
             <mat-error *ngIf="!applicationForm.get('dateofbirth').valid && applicationForm.get('dateofbirth').touched">
-              You must enter dateofbirth.
+              {{'err007' | translate }} 
             </mat-error>
           
           <mat-error *ngIf="validationError">
@@ -164,9 +171,13 @@
               <mat-error *ngIf="!applicationForm.get('nationality').valid && applicationForm.get('nationality').errors.required">
                 {{'err007' | translate }} 
               </mat-error>
+              
               <mat-error *ngIf="!applicationForm.get('nationality').valid && applicationForm.get('nationality').errors.maxlength">
-                {{'err008' | translate }} {{applicationForm.get('nationality').errors.maxlength.requiredLength}} {{'err009' | translate }}
-              </mat-error>
+                {{'err008' | translate:{maxlength:applicationForm.get('nationality').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('nationality').valid && applicationForm.get('nationality').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
             </mat-form-field>
             <mat-error *ngIf="validationError">
                 <div *ngIf="validationError.nationality">
@@ -203,8 +214,12 @@
                     {{'err007' | translate }} 
                   </mat-error>
                   <mat-error *ngIf="!applicationForm.get('buildingno').valid && applicationForm.get('buildingno').errors.maxlength">
-                    {{'err008' | translate }} {{applicationForm.get('buildingno').errors.maxlength.requiredLength}} {{'err009' | translate }}
-                  </mat-error>
+                {{'err008' | translate:{maxlength:applicationForm.get('buildingno').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('buildingno').valid && applicationForm.get('buildingno').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
+
                   </mat-form-field>    
                   <mat-error *ngIf="validationError">
                     <div *ngIf="validationError.buildingno">
@@ -223,8 +238,11 @@
                     {{'err007' | translate }} 
                   </mat-error>
                   <mat-error *ngIf="!applicationForm.get('street').valid && applicationForm.get('street').errors.maxlength">
-                    {{'err008' | translate }} {{applicationForm.get('street').errors.maxlength.requiredLength}} {{'err009' | translate }}
-                  </mat-error>
+                {{'err008' | translate:{maxlength:applicationForm.get('buildingno').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('street').valid && applicationForm.get('street').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
                 </mat-form-field>
 
                 <mat-error *ngIf="validationError">
@@ -251,8 +269,12 @@
                     {{'err007' | translate }} 
                   </mat-error>
                   <mat-error *ngIf="!applicationForm.get('area').valid && applicationForm.get('area').errors.maxlength">
-                    {{'err008' | translate }} {{applicationForm.get('area').errors.maxlength.requiredLength}} {{'err009' | translate }}
-                  </mat-error>
+                {{'err008' | translate:{maxlength:applicationForm.get('area').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('area').valid && applicationForm.get('area').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
+
                 </mat-form-field>
 
                 <mat-error *ngIf="validationError">
@@ -274,9 +296,13 @@
                   <mat-error *ngIf="!applicationForm.get('city').valid && applicationForm.get('city').errors.required">
                     {{'err007' | translate }} 
                   </mat-error>
-                  <mat-error *ngIf="!applicationForm.get('city').valid && applicationForm.get('city').errors.maxlength">
-                    {{'err008' | translate }} {{applicationForm.get('city').errors.maxlength.requiredLength}} {{'err009' | translate }}
-                  </mat-error>
+                  
+                   <mat-error *ngIf="!applicationForm.get('city').valid && applicationForm.get('city').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('city').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('city').valid && applicationForm.get('city').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
 
                   </mat-form-field>
                   <mat-error *ngIf="validationError">
@@ -307,8 +333,17 @@
                 </mat-option>
               </mat-select>
             
+                  <mat-error *ngIf="!applicationForm.get('state').valid && applicationForm.get('state').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                  
+                   <mat-error *ngIf="!applicationForm.get('state').valid && applicationForm.get('state').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('city').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('state').valid && applicationForm.get('state').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
 
-                  <mat-error *ngIf="!applicationForm.get('state').valid && applicationForm.get('state').touched">You must enter state.</mat-error>
             </mat-form-field>
 
             <mat-error *ngIf="validationError">
@@ -326,12 +361,21 @@
           <div class="row">
             <mat-form-field>
               <input type="text" required matInput name="country" formControlName="country" placeholder="{{ 'country' | translate }}"  />
-            
+                          <mat-error *ngIf="!applicationForm.get('country').valid && applicationForm.get('country').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                  
+                   <mat-error *ngIf="!applicationForm.get('country').valid && applicationForm.get('country').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('country').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('country').valid && applicationForm.get('country').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
 
-                  <mat-error *ngIf="!applicationForm.get('country').valid && applicationForm.get('country').touched">You must enter country.</mat-error>
             </mat-form-field>
             <mat-error *ngIf="validationError">
-              <div *ngIf="validationError.country">{{validationError.country.message}}
+              <div *ngIf="validationError.country">
+                {{validationError.country.message}}
               </div>
             </mat-error>
           <!-- V state ends here V -->
@@ -340,18 +384,31 @@
 
   </div>
 </div>
-
-         
-
-
-        
+       
           <!-- V pincode starts here V -->
+          <!--pincode : {{applicationForm.controls.pincode.errors | json}}-->
           <div class="row">
+            
             <mat-form-field>
               <input type="text" required matInput name="pincode" formControlName="pincode" placeholder="{{ 'pincode' | translate }}"  />
-            
+                  
+                      <!--<p translate [translateParams]="{fieldname:'pincode'}">err0013</p>-->
+                    
+                <mat-error *ngIf="!applicationForm.get('pincode').valid && applicationForm.get('pincode').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                  
+                   <mat-error *ngIf="!applicationForm.get('pincode').valid && applicationForm.get('pincode').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('country').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('pincode').valid && applicationForm.get('pincode').errors.pattern">
+                     {{'err0014' | translate}}
+                 </mat-error>
 
-                  <mat-error *ngIf="!applicationForm.get('pincode').valid && applicationForm.get('pincode').touched">You must enter pincode.</mat-error>
+                
+
+                  <!--<mat-error *ngIf="pincode.errors.pattern">Pincode should be integer only</mat-error>-->
+
             </mat-form-field>
             <mat-error *ngIf="validationError">
               <div *ngIf="validationError.pincode">{{validationError.pincode.message}}
@@ -367,11 +424,21 @@
             <mat-form-field>
               <input type="text" matInput name="telno" formControlName="telno" placeholder="{{ 'phoneno' | translate }}"  />
             
+                <mat-error *ngIf="!applicationForm.get('telno').valid && applicationForm.get('telno').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                  
+                   <mat-error *ngIf="!applicationForm.get('telno').valid && applicationForm.get('telno').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('country').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('telno').valid && applicationForm.get('telno').errors.pattern">
+                     {{'err0014' | translate}}
+                 </mat-error>              
 
-                  <mat-error *ngIf="!applicationForm.get('telno').valid && applicationForm.get('telno').touched">You must enter telno.</mat-error>
             </mat-form-field>
+
             <mat-error *ngIf="validationError">
-              <div *ngIf="validationError.telno">{{validationError.telno.message}}
+              <div *ngIf="validationError.telno"> {{validationError.telno.message | translate}}
               </div>
             </mat-error>
           <!-- V phonenumber ends here V -->
@@ -382,10 +449,20 @@
           <div class="row">
             <mat-form-field>
               <input type="text" required matInput name="mobno" formControlName="mobno" placeholder="{{ 'mobileno' | translate }}"  />
-            
+               
+                <mat-error *ngIf="!applicationForm.get('mobno').valid && applicationForm.get('mobno').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                   <mat-error *ngIf="!applicationForm.get('mobno').valid && applicationForm.get('mobno').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('country').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('mobno').valid && applicationForm.get('mobno').errors.pattern">
+                     {{'err0014' | translate}}
+                 </mat-error>
 
-                  <mat-error *ngIf="!applicationForm.get('mobno').valid && applicationForm.get('mobno').touched">You must enter mobno.</mat-error>
             </mat-form-field>
+
+
             <mat-error *ngIf="validationError">
               <div *ngIf="validationError.mobno">{{validationError.mobno.message}}
               </div>
@@ -399,8 +476,17 @@
             <mat-form-field>
               <input type="text" required matInput name="nearestrlystn" formControlName="nearestrlystn" placeholder="{{ 'nearestrlystn' | translate }}"  />
             
+                  <mat-error *ngIf="!applicationForm.get('nearestrlystn').valid && applicationForm.get('nearestrlystn').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                   <mat-error *ngIf="!applicationForm.get('nearestrlystn').valid && applicationForm.get('nearestrlystn').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('nearestrlystn').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('nearestrlystn').valid && applicationForm.get('nearestrlystn').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
 
-                  <mat-error *ngIf="!applicationForm.get('nearestrlystn').valid && applicationForm.get('nearestrlystn').touched">You must enter nearestrlystn.</mat-error>
+
             </mat-form-field>    
             <mat-error *ngIf="validationError">
               <div *ngIf="validationError.nearestrlystn">{{validationError.nearestrlystn.message}}
@@ -427,10 +513,19 @@
          <!-- advertisement details starts -->
           <div class="row">
             <mat-form-field>
-              <input type="text" name="advertisementno" matInput formControlName="advertisementno" placeholder="{{ 'advertisementno' | translate }}"   /> 
+              <input type="text" name="advertisementno" matInput formControlName="advertisementno" placeholder="{{ 'advertisementno' | translate }}" readonly="true"  /> 
             
 
-              <mat-error *ngIf="!applicationForm.get('advertisementno').valid && applicationForm.get('advertisementno').touched">You must enter advertisementno.</mat-error>
+                <mat-error *ngIf="!applicationForm.get('advertisementno').valid && applicationForm.get('advertisementno').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                   <mat-error *ngIf="!applicationForm.get('advertisementno').valid && applicationForm.get('advertisementno').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('advertisementno').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('advertisementno').valid && applicationForm.get('advertisementno').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
+
             </mat-form-field>
             <mat-error *ngIf="validationError">
               <div *ngIf="validationError.advertisementno">{{validationError.advertisementno.message}}
@@ -440,23 +535,41 @@
 
           <div class="row">
             <mat-form-field>
-              <input type="text" name="postcode" matInput formControlName="postcode" placeholder="{{ 'post' | translate }}" />
+              <input type="text" name="postcode" matInput formControlName="postcode" placeholder="{{ 'post' | translate }}"  readonly="true" />
             
+                <mat-error *ngIf="!applicationForm.get('postcode').valid && applicationForm.get('postcode').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                   <mat-error *ngIf="!applicationForm.get('postcode').valid && applicationForm.get('postcode').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('postcode').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('postcode').valid && applicationForm.get('postcode').errors.pattern">
+                     {{'err014' | translate}}
+                 </mat-error>
 
-              <mat-error *ngIf="!applicationForm.get('postcode').valid && applicationForm.get('postcode').touched">You must enter postcode.</mat-error>
             </mat-form-field>
             <mat-error *ngIf="validationError">
               <div *ngIf="validationError.postcode">{{validationError.postcode.message}}
               </div>
             </mat-error>
+
+
           </div>
 
           <div class="row">
             <mat-form-field>
-              <input type="text" name="subjectcode" matInput formControlName="subjectcode" placeholder="{{ 'subject' | translate }}" />
+              <input type="text" name="subjectcode" matInput formControlName="subjectcode" placeholder="{{ 'subject' | translate }}"  readonly="true" />
             
+                <mat-error *ngIf="!applicationForm.get('subjectcode').valid && applicationForm.get('subjectcode').errors.required">
+                    {{'err007' | translate }} 
+                  </mat-error>
+                   <mat-error *ngIf="!applicationForm.get('subjectcode').valid && applicationForm.get('subjectcode').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('postcode').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('subjectcode').valid && applicationForm.get('subjectcode').errors.pattern">
+                     {{'err014' | translate}}
+                 </mat-error>
 
-              <mat-error *ngIf="!applicationForm.get('subjectcode').valid && applicationForm.get('subjectcode').touched">You must enter subjectcode.</mat-error>
             </mat-form-field>
             <mat-error *ngIf="validationError">
               <div *ngIf="validationError.subjectcode">{{validationError.subjectcode.message}}
@@ -481,8 +594,15 @@
                   {{validationError.physicalhandicap.message}}   
               </div>
           </mat-error>
-                
-          <mat-error *ngIf="!applicationForm.get('physicalhandicap').valid && applicationForm.get('physicalhandicap').touched">You must enter physicalhandicap.</mat-error>
+          <mat-error *ngIf="!applicationForm.get('physicalhandicap').valid && applicationForm.get('physicalhandicap').errors.required">
+            {{'err007' | translate }} 
+          </mat-error>
+          <mat-error *ngIf="!applicationForm.get('physicalhandicap').valid && applicationForm.get('physicalhandicap').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('physicalhandicap').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('physicalhandicap').valid && applicationForm.get('physicalhandicap').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
 
 
       </mat-panel-title>
@@ -500,7 +620,17 @@
               </mat-radio-button>
             </mat-radio-group>
 
-                <mat-error *ngIf="!applicationForm.get('handicaptype').valid && applicationForm.get('handicaptype').touched">You must enter handicaptype.</mat-error>
+
+                 <mat-error *ngIf="!applicationForm.get('handicaptype').valid && applicationForm.get('handicaptype').errors.required">
+            {{'err007' | translate }} 
+          </mat-error>
+          <mat-error *ngIf="!applicationForm.get('handicaptype').valid && applicationForm.get('handicaptype').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('handicaptype').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('handicaptype').valid && applicationForm.get('handicaptype').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
+
 
               <mat-form-field>
               <mat-error *ngIf="validationError">
@@ -509,8 +639,18 @@
                 </div>
               </mat-error>
             <textarea  name="handicapdetails" matInput formControlName="handicapdetails" placeholder="Disability Details"  ></textarea>
-        
-            <mat-error *ngIf="!applicationForm.get('handicapdetails').valid && applicationForm.get('handicapdetails').touched">You must enter handicapdetails.</mat-error>
+
+                 <mat-error *ngIf="!applicationForm.get('handicapdetails').valid && applicationForm.get('handicapdetails').errors.required">
+            {{'err007' | translate }} 
+          </mat-error>
+          <mat-error *ngIf="!applicationForm.get('handicapdetails').valid && applicationForm.get('handicapdetails').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('handicapdetails').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('handicapdetails').valid && applicationForm.get('handicapdetails').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
+
+
           </mat-form-field>
           <mat-error *ngIf="validationError">
             <div *ngIf="validationError.handicapdetails">
@@ -539,7 +679,16 @@
                   {{validationError.exserviceman.message}}
                 </div>
               </mat-error>
-              <mat-error *ngIf="!applicationForm.get('exserviceman').valid && applicationForm.get('exserviceman').touched">You must enter exserviceman.</mat-error>
+              <mat-error *ngIf="!applicationForm.get('exserviceman').valid && applicationForm.get('exserviceman').errors.required">
+            {{'err007' | translate }} 
+          </mat-error>
+          <mat-error *ngIf="!applicationForm.get('exserviceman').valid && applicationForm.get('exserviceman').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('exserviceman').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('exserviceman').valid && applicationForm.get('exserviceman').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
+
       </mat-panel-title>
     </mat-expansion-panel-header>
 
@@ -557,16 +706,28 @@
                 {{validationError.exservicemanfrom.message}}
               </div>
             </mat-error>
-            <mat-error *ngIf="!applicationForm.get('exservicemanfrom').valid && applicationForm.get('exservicemanfrom').touched">
-              You must enter exservicemanfrom.
-            </mat-error>
+            
+
+                          <mat-error *ngIf="!applicationForm.get('exservicemanfrom').valid && applicationForm.get('exservicemanfrom').errors.required">
+            {{'err007' | translate }} 
+          </mat-error>
+          <mat-error *ngIf="!applicationForm.get('exservicemanfrom').valid && applicationForm.get('exservicemanfrom').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('exservicemanfrom').errors.maxlength.requiredLength} }}
+                </mat-error>
+
         </div>
 
 
         <div class="row">
           <mat-form-field>
             <input type="text" name="dateofreleived" matInput formControlName="dateofreleived"  placeholder="Date of Releived"  />
-            <mat-error *ngIf="!applicationForm.get('dateofreleived').valid && applicationForm.get('dateofreleived').touched">You must enter dateofreleived.</mat-error>
+                         <mat-error *ngIf="!applicationForm.get('dateofreleived').valid && applicationForm.get('dateofreleived').errors.required">
+            {{'err007' | translate }} 
+          </mat-error>
+          <mat-error *ngIf="!applicationForm.get('dateofreleived').valid && applicationForm.get('dateofreleived').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('dateofreleived').errors.maxlength.requiredLength} }}
+                </mat-error>
+
           </mat-form-field>
           <mat-error *ngIf="validationError">
             <div *ngIf="validationError.dateofreleived">
@@ -592,7 +753,18 @@
         <div class="row">
 
           <mat-slide-toggle formControlName="govtserv" name="govtserv">{{ 'governmentservice' | translate }}</mat-slide-toggle>
-              <mat-error *ngIf="!applicationForm.get('govtserv').valid && applicationForm.get('govtserv').touched">You must enter govtserv.</mat-error>
+
+              <mat-error *ngIf="!applicationForm.get('govtserv').valid && applicationForm.get('govtserv').errors.required">
+            {{'err007' | translate }} 
+          </mat-error>
+          <mat-error *ngIf="!applicationForm.get('govtserv').valid && applicationForm.get('govtserv').errors.maxlength">
+                {{'err008' | translate:{maxlength:applicationForm.get('govtserv').errors.maxlength.requiredLength} }}
+                </mat-error>
+                <mat-error *ngIf="!applicationForm.get('govtserv').valid && applicationForm.get('govtserv').errors.pattern">
+                     {{'err009' | translate}}
+                 </mat-error>
+
+
               <mat-error *ngIf="validationError">
                 <div *ngIf="validationError.govtserv">
                   {{validationError.govtserv.message}}
@@ -612,7 +784,8 @@
 
 </div>
 <div class="container">
-  <mat-card [hidden]="!showMsg" color="accent" style="margin: 10px">
+  <div [hidden]="!showMsg">
+  <mat-card color="accent" style="margin: 10px">
     <mat-card-content>
         <div class="row">
           <div fxFlex="5" [hidden]="!processing" ><mat-progress-spinner mode="indeterminate" color="accent" diameter="32"></mat-progress-spinner></div>
@@ -627,7 +800,7 @@
         </div>
     </mat-card-content>
   </mat-card>
-
+</div>
   <mat-card>
     <mat-card-content>
       <div class="container" align="center">

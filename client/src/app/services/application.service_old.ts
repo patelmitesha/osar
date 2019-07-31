@@ -225,77 +225,6 @@ export class ApplicationService {
     });
   }
 
-
-
-  savesemwisemarks(applicationid,qualificationid,semwisemarks) {
-
-
-    console.log("Inside insert new data function");
-    console.log("Application : "+semwisemarks);
-    let header=new Headers();
-      header.append('x-access-token',localStorage.getItem("token"));
-      let opts = new RequestOptions({headers:header, params: {_id:applicationid,qualificationid:qualificationid}});
-    console.log("save semwisemarks nilam");
-    return new Promise((resolve, reject) => {
-      this.http.post('/api/privateapi/semesterwisemarks',semwisemarks,opts)
-        .map(res => res.json())
-        .subscribe(res => {
-          console.log('success');
-          resolve(res);
-        }, (err) => {
-          console.log('failure');
-          console.log(err);
-          reject(err); 
-        });
-    });
-  }
-
-
-
-  deletesemwisemarks(applicationid,experienceid) {
-    console.log("Inside insert new data function");
-    console.log("Application ID : "+applicationid);
-    console.log("Experience ID : "+experienceid);
-    let header=new Headers();
-      header.append('x-access-token',localStorage.getItem("token"));
-      let opts = new RequestOptions({headers:header, params: {_id:applicationid, experienceid:experienceid}});
-
-    return new Promise((resolve, reject) => {
-      this.http.delete('/api/privateapi/semesterwisemarks',opts)
-        .map(res => res.json())
-        .subscribe(res => {
-          console.log('success');
-          resolve(res);
-        }, (err) => {
-          console.log('failure');
-          console.log(err);
-          reject(err);
-        });
-    });
-  }
-
-
-  updatesemwisemarks(applicationid, semwisemarks) {
-
-    console.log("Inside update semwisemarks Application ID : "+ applicationid);
-    let header=new Headers();
-    header.append('x-access-token',localStorage.getItem("token"));
-    let opts = new RequestOptions({headers:header, params: {_id:applicationid}});
-
-    return new Promise((resolve, reject) => {
-      this.http.put('/api/privateapi/semesterwisemarks',semwisemarks,opts)
-        .map(res => res.json())
-        .subscribe(res => {
-          console.log('success');
-          resolve(res);
-        }, (err) => {
-          console.log('failure');
-          console.log(err);
-          reject(err);
-        });
-    });
-  }
-
   generatePaymentRequest(applicationid) {
 
     console.log("Inside update qualification Application ID : "+ applicationid);
@@ -316,5 +245,6 @@ export class ApplicationService {
         });
     });
   }
+
 
 }

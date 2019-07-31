@@ -42,7 +42,6 @@ app.use('/api', api);
 app.use('/api/privateapi', privateapi);
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
-  console.log('calling angular app');
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 

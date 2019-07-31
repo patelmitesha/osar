@@ -1,0 +1,172 @@
+<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="row" fxLayout.md="row" fxLayout.lg="row"
+	fxLayout.xl="row" style="background-color: #ededed">
+	<div fxFlex="100">
+		<form [formGroup]="semWiseMarksForm" (ngSubmit)="addSemWiseMarks(semWiseMarksForm)" novalidate method='POST'>
+
+			<input type="hidden" name="_id" formControlName="_id" />
+
+			<div class="container" fxLayout fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="row"
+				fxLayout.lg="row" fxLayout.xl="row">
+				<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="70" fxFlex.lg="70">
+					<mat-card>
+						<mat-card-header>
+							<mat-card-title>
+								<h3>
+									<mat-icon mat-list-icon>mode_edit</mat-icon> {{ 'semesterwisemarks' | translate }}
+								</h3>
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+
+							<!-- V Semester starts here V -->
+							<div class="row">
+								<mat-form-field>
+									<input matInput required name="semester" formControlName="semester" maxlength="100"
+										placeholder="{{ 'semester' | translate }}">
+										<mat-error
+										*ngIf="!semWiseMarksForm.get('semester').valid && semWiseMarksForm.get('semester').required">
+										You must enter Semester.
+								
+									</mat-error>
+									<mat-error
+										*ngIf="!semWiseMarksForm.get('semester').valid && semWiseMarksForm.get('semester').errors.maxlength">
+										{{'err008' | translate:{maxlength:semWiseMarksForm.get('semester').errors.maxlength.requiredLength} }}
+									</mat-error>
+									<mat-error
+										*ngIf="!semWiseMarksForm.get('semester').valid && semWiseMarksForm.get('semester').errors.pattern">
+										{{'err009' | translate}}
+									</mat-error>
+								</mat-form-field>
+
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.semester">
+										{{validationError.errors.semester.message}} </div>
+								</mat-error>
+							</div>
+							<!-- V Semester ends here V -->
+
+							<!-- V Marks starts here V -->
+							<div class="row">
+								<mat-form-field>
+									<input matInput required name="marks" formControlName="marks"
+										placeholder="{{ 'marks' | translate }}">
+										<mat-error
+										*ngIf="!semWiseMarksForm.get('marks').valid && semWiseMarksForm.get('marks').required">
+										You must enter marks.
+									</mat-error>
+									<mat-error
+										*ngIf="!semWiseMarksForm.get('marks').valid && semWiseMarksForm.get('marks').errors.maxlength">
+										{{'err008' | translate:{maxlength:semWiseMarksForm.get('marks').errors.maxlength.requiredLength} }}
+									</mat-error>
+									<mat-error
+										*ngIf="!semWiseMarksForm.get('marks').valid && semWiseMarksForm.get('marks').errors.pattern">
+										{{'err009' | translate}}
+									</mat-error>
+								</mat-form-field>
+
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.marks">
+										{{validationError.errors.marks.message}} </div>
+								</mat-error>
+							</div>
+							<!-- V Marks ends here V -->
+
+							<!-- V Grade starts here V -->
+							<div class="row">
+								<mat-form-field>
+									<input matInput required name="grade" formControlName="grade" maxlength="50"
+										placeholder="{{ 'grade' | translate }}">
+										<mat-error
+										*ngIf="!semWiseMarksForm.get('grade').valid && semWiseMarksForm.get('grade').required">
+										You must enter grade.
+									</mat-error>
+									<mat-error
+										*ngIf="!semWiseMarksForm.get('grade').valid && semWiseMarksForm.get('grade').errors.maxlength">
+										{{'err008' | translate:{maxlength:semWiseMarksForm.get('grade').errors.maxlength.requiredLength} }}
+									</mat-error>
+									<mat-error
+										*ngIf="!semWiseMarksForm.get('grade').valid && semWiseMarksForm.get('grade').errors.pattern">
+										{{'err009' | translate}}
+									</mat-error>
+								</mat-form-field>
+
+								<mat-error *ngIf="validationError">
+									<div *ngIf="validationError.errors.grade">
+										{{validationError.errors.grade.message}} </div>
+								</mat-error>
+							</div>
+							<!-- V Grade ends here V -->
+
+						</mat-card-content>
+					</mat-card>
+				</div>
+				<div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="30" fxFlex.lg="30">
+					<mat-card>
+						<mat-card-header>
+							<mat-card-title>
+								<h3> Important Instructions <mat-icon>chat</mat-icon>
+								</h3>
+							</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<mat-icon>mail</mat-icon> : ao_rr@sac.isro.gov.in <br />
+							<br />
+							<mat-icon>call</mat-icon> : 079-26913020 / 21
+						</mat-card-content>
+					</mat-card>
+				</div>
+			</div>
+
+
+
+			<div class="container">
+				<div fxFlex="100">
+					<div [hidden]="!showMsg">
+						<mat-card color="accent" style="margin: 10px">
+							<mat-card-content>
+								<div class="row">
+									<div fxFlex="5" [hidden]="!processing">
+										<mat-progress-spinner mode="indeterminate" color="accent" diameter="32">
+										</mat-progress-spinner>
+									</div>
+									<div fxFlex="5" [hidden]="!msgIcon">
+										<mat-icon style="font-size: 24px">{{msgIcon}}</mat-icon>
+									</div>
+
+									<div fxFlex="95" style="margin-top: 7px">{{ msgCode | translate }}
+										<!-- <div [hidden]="!msgDetails"> -->
+										: {{msgDetails}}
+										<!-- </div> -->
+
+									</div>
+								</div>
+							</mat-card-content>
+						</mat-card>
+					</div>
+					<mat-card>
+						<mat-card-content>
+							<div>
+								<div class="container" align="center">
+									<span class="{{nextButtonEnable==true}}">
+
+										<button mat-raised-button color="accent"
+											[routerLink]="['/layout/editqualificationinfo',id,qualificationid]">
+											<mat-icon>keyboard_arrow_left</mat-icon>{{ 'back' | translate }}
+										</button>
+									</span>
+									<button mat-raised-button color="primary" type="submit"
+										[disabled]="semWiseMarksForm.invalid">
+										<mat-icon>check</mat-icon>{{ 'save' | translate }}
+									</button>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</div>
+			</div>
+
+
+
+		</form>
+	</div>
+</div>

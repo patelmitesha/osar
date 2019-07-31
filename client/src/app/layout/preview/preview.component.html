@@ -24,6 +24,12 @@
 									<td class="personaldata-title" style="text-align: right;">
 										<div  [hidden]="application.islocked" >
 											<a  mat-button color="primary" style="border:thin; border-style: solid;min-width: 1%"  [routerLink]="['/layout/personalinfo',application._id]" ><mat-icon>mode_edit</mat-icon> {{ 'edit' | translate }}</a>
+
+											<!--
+												IF YOU WANT TO AVOID JAVASCRIPT ERROR THEN REPLACE routerLink as given below 
+
+												<a  mat-button color="primary" style="border:thin; border-style: solid;min-width: 1%"  [routerLink]="['/layout/personalinfo/'+application?._id]" ><mat-icon>mode_edit</mat-icon> {{ 'edit' | translate }}</a>-->
+											
 										</div>
 									</td>
 								</tr>
@@ -89,9 +95,9 @@
 			<div fxFlex fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70">
 				<div style="padding: 20px; " >
 					<div style="padding-top: 10px; font-size: 20px; font-weight: bold;">
-						<div class="container">
+						<div class="container" style="border-bottom: 1px; border-bottom-style: solid; border-bottom-color: lightgray; padding-bottom: 5px">
 					
-							<div fxFlex fxFlex.xs="70" fxFlex.sm="70" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70">
+							<div fxFlex fxFlex.xs="70" fxFlex.sm="70" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70" >
 								{{ 'educationalqualification' | translate }}
 							</div>
 							
@@ -105,13 +111,14 @@
 								<div *ngFor="let remainingCourse of remainingCourses" class="col-sm-3" >
 									<div *ngIf="!remainingCourse.isfilled">
 										<a [routerLink]="['/layout/qualificationinfo',application._id,remainingCourse.courseconfigid]" mat-menu-item >{{remainingCourse.nameofexam}}</a>
+
 									</div>
 								</div>
 							</mat-menu>
 							
 							</div>
 							</div>	
-						<mat-divider></mat-divider>
+						
 					
 					</div>
 
@@ -129,7 +136,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td style="width: 50px">	
+								<td style="width: 30px">	
 									&nbsp;
 								</td>
 								<td style="border-left: solid; border-color: gray; padding-left: 10px; padding-top: 10px; padding-bottom: 10px ">								
@@ -153,7 +160,7 @@
 				
 				<div style="padding: 20px; " >
 					<div style="padding-top: 10px; font-size: 20px; font-weight: bold;">
-						<div class="container">
+						<div class="container" style="border-bottom: 1px; border-bottom-style: solid; border-bottom-color: lightgray; padding-bottom: 5px">
 							<div fxFlex fxFlex.xs="70" fxFlex.sm="70" fxFlex.md="70" fxFlex.lg="70"  fxFlex.xl="70">
 								{{ 'workexperience' | translate }}
 							</div>
@@ -164,7 +171,6 @@
 								</div>
 							</div>
 						</div>
-						<mat-divider></mat-divider>
 					</div>
 
 					<table>

@@ -32,29 +32,36 @@ var applicationsSchema = new Schema({
 	salutation: {
 		type: String,
 		required: true,
-		enum:['Shri.','Smt.','Ms.','Dr.']
+		maxlength: 10,
+		enum:['Shri.','Smt.','Ms.','Dr.'],
+		/* in validate /i meant for ignore case */
+		validate:[/^[a-zA-Z .]+$/i,"Only characters are allowed"]
 	},
 	firstname: {
 		type: String,
 		required: true,
-		maxlength:50,
-		validate:/[a-zA-z ]/
+		maxlength: 50,
+		validate:[/^[a-zA-Z ]+$/i,"Only characters are allowed"]
 	},
 	fatherhusbandname: {
 		type: String,
 		required: true,
 		maxlength:50,
-		validate:/[a-zA-z ]/
+		validate: [/^[a-zA-Z ]+$/i,"Invalid Father/Husband Name"]
 	},
 	gender: {
 		type: String,
 		required: true,
-		enum:['Male','Female']
+		maxlength: 20,
+		enum:['Male','Female'],
+		validate:[/^[a-zA-Z]+$/i,"Only characters are allowed"]
 	},
 	category: {
 		type: String,
 		required: true,
-		enum:['GEN','SC','ST','OBC']
+		maxlength: 5,
+		enum:['GEN','SC','ST','OBC'],
+		validate:[/^[a-zA-Z]+$/i,"Only characters are allowed"]
 	},
 	physicalhandicap: {
 		type:Boolean ,
@@ -64,11 +71,13 @@ var applicationsSchema = new Schema({
 		type:String,
 		maxlength:50,
 		required: false,
-		enum:[null,'VISUAL','HEARING IMPAIRED','ORTHOPEDIC']	
+		enum:[null,'VISUAL','HEARING IMPAIRED','ORTHOPEDIC'],
+		validate:[/^[a-zA-Z ]+$/i,"Only characters are allowed"]
 	} ,
 	handicapdetails: {
 		type:String,
-		maxlength:100
+		maxlength:100,
+		validate:[/^[0-9a-zA-Z .,-/%]+$/i,"Only characters are allowed"]
 	},
 	exserviceman: {
 		type:Boolean ,
@@ -78,7 +87,8 @@ var applicationsSchema = new Schema({
 		type:String,
 		maxlength:20,
 		required: false,
-		enum:[null,'ARMY','NAVY','AIR FORCE']	
+		enum:[null,'ARMY','NAVY','AIR FORCE'],
+		validate:[/^[0-9a-zA-Z -]+$/i,"Only characters are allowed"]
 	},
 	dateofreleived: Date ,
 	dateofbirth: {
@@ -94,12 +104,13 @@ var applicationsSchema = new Schema({
 	nationality: {
 		type: String,
 		required: true,
-		maxlength:30
+		maxlength:30,
+		validate:[/^[a-zA-Z ]+$/i,"Only characters are allowed"]
 	},
 	nearestrlystn: {
 		type:String,
 		maxlength:30,
-		validate:/[a-zA-z ]/
+		validate:[/^[a-zA-Z -]+$/i,"Invalid Nearest Railway Station"]
 	},
 	ddno: {
 		type:String,
@@ -108,55 +119,61 @@ var applicationsSchema = new Schema({
 	dddate: Date ,
 	ddbank: {
 		type:String,
-		maxlength:50
+		maxlength:50,
+		validate:[/^[0-9a-zA-Z .,-]+$/i,"Only characters are allowed"]
 	},
 	bankbranch: {
 		type:String,
-		maxlength:50
+		maxlength:50,
+		validate:[/^[0-9a-zA-Z .,-]+$/i,"Only characters are allowed"]
 	},
 	buildingno: {
 		type: String,
 		required: true,
-		maxlength:100
+		maxlength:100,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 	},
 	street: {
 		type:String,
-		maxlength:100
+		maxlength:100,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 	},
 	area: {
 		type:String,
-		maxlength:100
+		maxlength:100,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 	},
 	city: {
 		type:String,
-		maxlength:100
+		maxlength:100,
+		validate:[/^[a-zA-Z -]+$/i,"Only characters are allowed"]
 	},
 	state: {
 		type:String,
 		maxlength:50,
-		validate:/[a-zA-z ]/
+		validate:[/^[a-zA-Z -]+$/i,"Only characters are allowed"]
 	},
 	country: {
 		type:String,
 		maxlength:20,
-		validate:/[a-zA-z ]/
+		validate:[/^[a-zA-Z ]+$/i,"Only characters are allowed"]
 	},
 	pincode: {
 		type: String,
 		required: true,
 		max:10,
-		validate:/[0-9]/
+		validate:[/[0-9]/,"Invalid pincode"]
 	},
 	telno: {
 		type:String,
 		maxlength:20,
-		validate:/[0-9]/
+		validate:[/[0-9]/,"Only numbers allowed"]
 	},
 	mobno: {
 		type: String,
 		required: true,
 		maxlength:12,
-		validate:/[0-9]/
+		validate:[/[0-9+-]/,"Only numbers allowed"]
 	},
 	email: {
 		type: String,
@@ -167,23 +184,28 @@ var applicationsSchema = new Schema({
 	expinmonths: Number ,
 	reference: {
 		type:String,
-		maxlength:200
+		maxlength:200,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 	},
 	ip: {
 		type : String,
-		maxlength:30
+		maxlength:30,
+		validate:[/[0-9.]/,"Invalid IP"]
 	} ,
 	screeningstatus: {
 		type:String,
-		maxlength:100
+		maxlength:100,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters and digits are allowed"]
 	},
 	correctionmade: {
 		type : String,
-		maxlength:100 
+		maxlength:100,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters and digits are allowed"]
 	},
 	screeningresult: {
 		type : String,
-		maxlength:100 
+		maxlength:100,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters and digits are allowed"]
 	},
 	registerdate: {
 		type : Date
@@ -195,7 +217,8 @@ var applicationsSchema = new Schema({
 	dateofinterview: Date ,
 	meritnumber: {
 		type:String,
-		maxlength:100 
+		maxlength:100,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 	} ,
 	signature: {
 		type:String,
@@ -208,48 +231,58 @@ var applicationsSchema = new Schema({
 	islocked: Boolean ,
 	question : {
 		type:String,
-		maxlength:1000 
+		maxlength:1000,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 	} ,
 	answer: {
 		type:String,
-		maxlength:1000 
+		maxlength:1000,
+		validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 	} ,
 	qualifications : [{
 			nameofexam : {
 			type: String,
 			required: true,
-			maxlength:200
+			maxlength:200,
+			validate:[/^[a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		},
 		course : {
 			type: String,
-			maxlength:200
+			maxlength:200,
+			validate:[/^[a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		},
 		subject : {
 			type: String,
-			maxlength:200
+			maxlength:200,
+			validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		},
 		yearofpassing : String,
 		universityboard : {
 			type: String,
-			maxlength:500
+			maxlength:500,
+			validate:[/^[a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		},
 		resultawaited: Boolean,
 		boardstate : {
 			type: String,
-			maxlength:100
+			maxlength:100,
+			validate:[/^[a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		},
 		aggregate : Number,
 		examclass : {
 			type: String,
-			maxlength:50
+			maxlength:50,
+			validate:[/^[a-zA-Z .]+$/i,"Only characters are allowed"]
 		},
 		correctionmade : {
 			type:String,
-			maxlength:50
+			maxlength:50,
+			validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		} ,
 		examtype : {
 			type:String,
-			maxlength:100
+			maxlength:100,
+			validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		} ,
 		resultawaited : Boolean,
 		isdeleted : Boolean,
@@ -260,15 +293,21 @@ var applicationsSchema = new Schema({
 		semesterwisemarks : [{
 			semester : {
 				type : String,
-				required:true
+				maxlength : 100,
+				required:true,
+				validate:[/^[a-zA-Z0-9 .,-/]+$/i,"Only characters and digits are allowed"]
 			},
 			marks : {
 				type : Number,
-				required:false
+				max : 10000,
+				required:true,
+				validate:[/^[0-9./]+$/i,"Only digits are allowed"]
 			},
 			grade : {
 				type : String,
-				required:false
+				maxlength : 50,
+				required:true,
+				validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters and digits are allowed"]
 			}
 
 		}]
@@ -277,7 +316,8 @@ var applicationsSchema = new Schema({
 		postheld : {
 			type: String,
 			required:true,
-			maxlength:200
+			maxlength:200,
+			validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		},
 		fromdate : {
 			type: Date,
@@ -293,10 +333,17 @@ var applicationsSchema = new Schema({
 			type: Date,
 			required:true
 		},
+		nameoforganization: {
+			type: String,
+			required:true,
+			maxlength:200,
+			validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
+		},
 		natureofduty : {
 			type: String,
 			required:true,
-			maxlength:200
+			maxlength:200,
+			validate:[/^[0-9a-zA-Z .,-/]+$/i,"Only characters are allowed"]
 		}
 	}]
 });

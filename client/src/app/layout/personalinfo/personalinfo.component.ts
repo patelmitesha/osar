@@ -11,10 +11,14 @@ import { ApplicationService } from  '../../services/application.service';
 	styleUrls: ['./personalinfo.component.css'],
 	encapsulation: ViewEncapsulation.None
 })
+
 export class PersonalinfoComponent implements OnInit {
 
 	private sub: any;
 	id: number;
+	advertisementno:String;
+	subjectcode:String;
+	postcode:String;
 	validationError: any;
 	applicationForm: FormGroup;
 	processing: boolean;
@@ -23,6 +27,9 @@ export class PersonalinfoComponent implements OnInit {
 	msgDetails:String;
 	showMsg:boolean;
 	msgIcon:String;
+	today = new Date();
+	minDate = new Date(this.today.getFullYear()-60, this.today.getMonth()+1, this.today.getDate());
+	maxDate = new Date(this.today.getFullYear()-17, this.today.getMonth()+1, this.today.getDate());
 
 	constructor(private router: ActivatedRoute, private applicationService: ApplicationService, private formBuilder: FormBuilder) { 
 		this.processing=false;
@@ -35,42 +42,47 @@ export class PersonalinfoComponent implements OnInit {
 		console.log("Inside on init personal info component");
 		this.sub = this.router.params.subscribe(params => {
        this.id = params.id; // (+) converts string 'id' to a number
+       this.advertisementno = params.advertisementno;
+       this.postcode=params.postcode;
+       this.subjectcode=params.subjectcode;
+
        console.log("Row ID from param : "+this.id);
        // In a real app: dispatch action to load the details here.
        //this.getapplication(this.id);
        if(this.id){
        	this.getapplication(this.id);
        }
+		
 
 		this.applicationForm = this.formBuilder.group({
 	       	_id:[],
 	       	salutation: ['Shri' ,Validators.required],
-	       	firstname: [undefined ,[Validators.required, Validators.maxLength(50)]],
-	       	fatherhusbandname: [undefined,[Validators.required, Validators.maxLength(50)]],
-	       	gender: ['Male',Validators.required],
-	       	category: ['GEN',Validators.required],
+	       	firstname: [undefined ,[Validators.required, Validators.maxLength(50),Validators.pattern('^[a-zA-Z ]+$')]],
+	       	fatherhusbandname: [undefined,[Validators.required, Validators.maxLength(50),Validators.pattern('^[a-zA-Z ]+$')]],
+	       	gender: ['Male',[Validators.required, Validators.maxLength(10),Validators.pattern('^[a-zA-Z]+$')]],
+	       	category: ['GEN',[Validators.required, Validators.maxLength(10),Validators.pattern('^[a-zA-Z]+$')]],
 	       	dateofbirth: [(new Date()).toISOString,Validators.required],
-	       	nationality: ['INDIAN',[Validators.required, Validators.maxLength(30)]],
-	       	buildingno: [undefined,[Validators.required, Validators.maxLength(100)]],
-	       	street: [undefined,[Validators.maxLength(100)]],
-	       	area: [undefined,[Validators.maxLength(100)]],
-	       	city: [undefined,[Validators.required, Validators.maxLength(100)]],
-	       	state: [undefined,[Validators.required, Validators.maxLength(50)]],
-	       	country: ['INDIA',[Validators.required, Validators.maxLength(20)]],
-	       	pincode: [undefined,[Validators.required, Validators.maxLength(10)]],
-	       	telno: [undefined,[Validators.maxLength(20)]],
-	       	mobno: [undefined,[Validators.required, Validators.maxLength(12)]],
-	       	nearestrlystn: [undefined,[Validators.required, Validators.maxLength(30)]],
-	       	advertisementno: [undefined,[Validators.required, Validators.maxLength(4)]],
-	       	postcode: [undefined,[Validators.required, Validators.maxLength(2)]],
-	       	subjectcode: [undefined,[Validators.required, Validators.maxLength(2)]],
-	       	physicalhandicap: [false,Validators.required],
-	       	handicaptype:[undefined,[Validators.maxLength(20)]],
-	       	handicapdetails: [undefined,[Validators.maxLength(100)]],
-	       	govtserv: [false,Validators.required],
-	       	exserviceman: [false,Validators.required],
+	       	nationality: ['INDIAN',[Validators.required, Validators.maxLength(30),Validators.pattern('^[a-zA-Z]+$')]],
+	       	buildingno: [undefined,[Validators.required, Validators.maxLength(100),Validators.pattern('^[0-9a-zA-Z .,-]+$')]],
+	       	street: [undefined,[Validators.maxLength(100),Validators.pattern('^[0-9a-zA-Z .,-]+$')]],
+	       	area: [undefined,[Validators.maxLength(100),Validators.pattern('^[0-9a-zA-Z .,-]+$')]],
+	       	city: [undefined,[Validators.required, Validators.maxLength(100),Validators.pattern('^[a-zA-Z ]+$')]],
+	       	state: [undefined,[Validators.required, Validators.maxLength(50),Validators.pattern('^[a-zA-Z ]+$')]],
+	       	country: ['INDIA',[Validators.required, Validators.maxLength(20),Validators.pattern('^[a-zA-Z ]+$')]],
+	       	pincode: [undefined,[Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
+	       	telno: [undefined,[Validators.maxLength(20),  Validators.pattern('^[0-9]+$')]],
+	       	mobno: [undefined,[Validators.required, Validators.maxLength(14), Validators.pattern('^[0-9+-]+$')]],
+	       	nearestrlystn: [undefined,[Validators.required, Validators.maxLength(30), Validators.pattern('^[a-zA-Z -]+$')]],
+	       	advertisementno: [this.advertisementno,[Validators.required, Validators.maxLength(4),Validators.pattern('^[0-9a-zA-Z .,-]+$')]],
+	       	postcode: [this.postcode,[Validators.required, Validators.maxLength(2), Validators.pattern('^[0-9]+$')]],
+	       	subjectcode: [this.subjectcode,[Validators.required, Validators.maxLength(2), Validators.pattern('^[0-9]+$')]],
+	       	physicalhandicap: [false,[Validators.required,Validators.pattern('(TRUE|true|FALSE|false)')]],
+	       	handicaptype:[undefined,[Validators.maxLength(20), Validators.pattern('^[a-zA-Z ]+$')]],
+	       	handicapdetails: [undefined,[Validators.maxLength(100), Validators.pattern('^[0-9a-zA-Z .,-]+$')]],
+	       	govtserv: [false,[Validators.required,Validators.pattern('^(TRUE|true|FALSE|false)$')]],
+	       	exserviceman: [false,[Validators.required,Validators.pattern('^(TRUE|true|FALSE|false)$')]],
 	       	exservicemanfrom: [undefined,[Validators.maxLength(20)]],
-	       	dateofreleived: [undefined]
+	       	dateofreleived: [undefined,[Validators.maxLength(20)]]
 
 	       });
 	   });
@@ -135,11 +147,14 @@ export class PersonalinfoComponent implements OnInit {
 
 					}
 				}
-				
-
 			});
 		}else{
 			this.clearMessage();
+			if(this.advertisementno && this.postcode && this.subjectcode){
+       			applicationForm.advertisementno=this.advertisementno;
+       			applicationForm.postcode=this.postcode;
+       			applicationForm.subjectcode=this.subjectcode;
+       		}
 
 			console.log("Trying to insert new data");
 			this.applicationService.saveapplication(applicationForm.value).then((res)=>{
@@ -147,7 +162,6 @@ export class PersonalinfoComponent implements OnInit {
 				console.log('successfully inserted data');
 				this.showMessage('success','msg004','');
 			},(err) => { 
-
 				if(err._body){
 				var error=JSON.parse(err._body);
 				console.log(error);
@@ -155,7 +169,6 @@ export class PersonalinfoComponent implements OnInit {
 					/*for (var field in err.errors) {
 console.log('var names : '+field.message);
 					}*/
-
 	  					if (err) {
 		  					if(err.status==422) {
 		  						console.log('While inserting validation Error occured');

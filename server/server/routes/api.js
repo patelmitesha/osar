@@ -12,9 +12,8 @@ const router = express.Router();
 
 
 var mongoDB = 'mongodb://localhost:27017/osar';
-mongoose.connect(mongoDB, {
-  useNewUrlParser:true,
-  useCreateIndex:true
+mongoose.connect(mongoDB,{
+  useNewUrlParser: true
 });
 
 var db = mongoose.connection;
