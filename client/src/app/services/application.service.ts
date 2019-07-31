@@ -225,6 +225,26 @@ export class ApplicationService {
     });
   }
 
+  generatePaymentRequest(applicationid) {
+
+    console.log("Inside update qualification Application ID : "+ applicationid);
+    let header=new Headers();
+    header.append('x-access-token',localStorage.getItem("token"));
+    let opts = new RequestOptions({headers:header, params: {_id:applicationid}});
+
+    return new Promise((resolve, reject) => {
+      this.http.post('/api/privateapi/paymentrequest',applicationid,opts)
+        .map(res => res.json())
+        .subscribe(res => {
+          console.log('success');
+          resolve(res);
+        }, (err) => {
+          console.log('failure');
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
 
 
 }

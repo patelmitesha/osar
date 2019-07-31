@@ -20,6 +20,7 @@ export class SubmitapplicationComponent implements OnInit {
 	msgDetails:String;
 	showMsg:boolean;
 	msgIcon:String;
+	paymentRequest:any;
 
 	constructor(
 		private router: ActivatedRoute, 
@@ -30,9 +31,33 @@ export class SubmitapplicationComponent implements OnInit {
 			this.sub = this.router.params.subscribe(params => {
 			this.applicationid = params.id; // (+) converts string 'id' to a number
 			console.log("Row ID from param : "+this.applicationid);
+			this.requestMoney(this.applicationid);
 		});
 	}
 
+	requestMoney(applicationId){
+			console.log(applicationId);
+			this.showMsg=true;
+			this.processing=true;
+			if(applicationId){
+				this.applicationService.generatePaymentRequest(applicationId).then((res)=>{
+					
+					console.log("Trying to generate payment request");
+					this.paymentRequest=res;
+					console.log(this.paymentRequest.status);
+						
+				},(err)=>{
+					if(err.status === 0){
+						console.log('Network error');
+						this.showMessage('error','err0011','Unable to connect');
+					}else{
+						console.log("Status : " + err.status);
+						this.showMessage('error','err006',err);
+					}
+				})
+			}
+		}
+	
 	lockApplication(applicationId){
 		console.log(applicationId);
 		this.showMsg=true;
@@ -77,39 +102,6 @@ export class SubmitapplicationComponent implements OnInit {
 				}
 			})
 		}
-		/*if(qualificationForm.value._id){
-			//update
-		}else{
-			//insert
-			console.log("Trying to insert new qualification");
-			this.applicationService.savequalification(this.applicationid, qualificationForm.value).then((res)=>{
-
-				console.log('successfully inserted qualification data');
-				
-				console.log(res);		  
-
-			},(err) => { 
-
-				if(err._body){
-				var error=JSON.parse(err._body);
-				console.log(error);
-					if (error) {
-
-	  					if(error.name=='ValidationError') {
-	  					this.validationError=error;
-
-	  						console.log('Validation Error occured');
-						}else{
-							console.log('Validation passed');
-						}
-					}
-				}
-
-			 	//this.validationError=err._body;
-			 	console.log("Error Response :"+err);  
-			 	console.log("Error of qualifications : "+err._body.errors);
-			 });	
-		}*/
 	}
 
 

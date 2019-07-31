@@ -2,6 +2,7 @@
 var mongoose = require('mongoose');
 var request= require('request');
 
+
 module.exports.paymentrequest = function(req, res) {
 console.log("Inside payment gateway");
     var headers = { 'X-Api-Key': 'test_91056a9825f850df083e3cb27a4', 
@@ -24,11 +25,14 @@ console.log("Inside payment gateway");
       }
 
       console.log(error);
-      console.log(response);
+//      console.log(response);
+      console.log(response.body);
+
+      
       if(error){
         res.status(500).json(error);
       }else{
-        res.status(200).json(response);
+        res.status(200).json(JSON.parse(response.body));
       }
     });
 };

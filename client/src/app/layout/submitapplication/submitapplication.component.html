@@ -62,7 +62,8 @@
 
        {{'msg006' | translate}} <a mat-raised-button color="accent" (click)="lockApplication(applicationid)"  > Yes <mat-icon>done_all</mat-icon></a>
     </mat-card>
-
+	<a mat-raised-button href={{paymentRequest.payment_request.longurl}} color="accent"  > Pay <mat-icon>done_all</mat-icon></a>
+	{{paymentRequest.payment_request.longurl | json}}
     </div>
 
   </div>
