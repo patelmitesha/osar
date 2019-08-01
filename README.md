@@ -18,3 +18,7 @@ To push into git
 -----------
 cd /osar
 git push
+
+To clone from git
+-----------
+git clone
