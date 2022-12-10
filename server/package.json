@@ -9,7 +9,7 @@
   "author": "Mitesh Patel",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "formidable": "^1.2.1",
     "hammerjs": "^2.0.8",
     "jsonwebtoken": "^8.5.1",
